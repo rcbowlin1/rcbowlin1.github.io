@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% if title %}{{ title }} · {% endif %}Ryan Bowlin</title>
+  <meta name="description" content="Product manager who builds and ships production AI." />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/">rcbowlin</a>
+    <nav>
+      <a href="/work/">Work</a>
+      <a href="/thoughts/">Thoughts</a>
+      <a href="/about/">About</a>
+    </nav>
+  </header>
+
+  <main>
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="contact">
+      <span class="contact-name">Ryan Bowlin</span>
+      <a href="mailto:rcbowlin1@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/ryan-bowlin/">LinkedIn</a>
+      <a href="https://github.com/rcbowlin1">GitHub</a>
+    </div>
+    <p class="copyright">© <span id="year"></span> Ryan Bowlin</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // External links open in a new tab.
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.host !== location.host) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+    });
+  </script>
+</body>
+</html>
