@@ -295,3 +295,13 @@ section:not(.hero):not(.no-count) > h2::before {
 .cta-box p { color: #0a2e22; font-size: 1.1rem; margin: 0 0 24px; }
 .cta-btn { display: inline-block; background: #06231a; color: #fff; font-family: var(--mono); font-size: 0.9rem; padding: 12px 24px; border-radius: 8px; text-decoration: none; }
 .cta-btn:hover { opacity: 0.92; }
+
+/* Résumé page */
+.resume-skills { color: var(--muted); font-size: 0.95rem; }
+.resume-role { padding: 14px 0; border-top: 1px solid var(--line); }
+.resume-role:first-of-type { border-top: none; }
+.rr-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.rr-title { font-weight: 700; }
+.rr-co { color: var(--accent); font-family: var(--mono); font-size: 0.85rem; }
+.rr-dates { color: var(--muted); font-family: var(--mono); font-size: 0.8rem; margin-left: auto; }
+.resume-role p { color: #c9c9cc; margin: 6px 0 0; }
