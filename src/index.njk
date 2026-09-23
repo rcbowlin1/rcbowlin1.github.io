@@ -2,14 +2,14 @@
 layout: base.njk
 ---
 <section class="hero">
-  <p class="eyebrow">Product Manager · Applied AI</p>
+  <p class="eyebrow">Sr. Product Manager · Applied AI</p>
   <h1>I build and ship production AI.</h1>
   <p class="lede">
     Over twelve years turning ambiguous, high-stakes problems into strategies that work and things
     that ship, from Fortune 500 retail buyers to Amazon leadership. Now I design, build, and operate the AI itself.
   </p>
   <p class="hero-actions">
-    <a class="btn" href="/work/">See my work</a>
+    <a class="btn" href="/about/">About me</a>
     <a class="btn btn-ghost" href="/resume/">Résumé</a>
   </p>
 </section>
@@ -34,17 +34,44 @@ layout: base.njk
       <span>$40MM sustainability-technology investment.</span>
     </li>
   </ul>
-  <p class="more"><a href="/work/">More on my work →</a></p>
 </section>
 
-<section class="currently">
-  <h2>Currently</h2>
-  <p>Exploring how far AI agents can go toward building, and almost running, a startup end to end.</p>
+<section class="home-work">
+  <h2>My Work</h2>
+  <p class="section-note">Here's what I'm working on now — and how I think about building it.</p>
+  <ul class="post-index">
+    <li>
+      <a href="/work/scaling-sustainability-fact-sheets/">Scaling sustainability fact sheets with an AI pipeline</a>
+      <span class="post-meta">A deterministic-core pipeline: assured LCA data → approved claims → agents → Figma via MCP · masked</span>
+    </li>
+    <li>
+      <a href="/work/valuing-new-bets/">Valuing new-to-world investments</a>
+      <span class="post-meta">A shared decision framework for bets with no comparables · masked</span>
+    </li>
+  </ul>
+  <p class="more"><a href="/work/">See more →</a></p>
 </section>
 
 <section class="teasers">
-  <h2>Thinking</h2>
-  <p class="more"><a href="/thoughts/">Read my latest →</a></p>
+  <h2>My Thinking</h2>
+  <ul class="post-index">
+    {%- for post in collections.posts | reverse %}
+    {%- if loop.index <= 2 %}
+    <li>
+      <a href="{{ post.url }}">{{ post.data.title }}</a>
+      <span class="post-meta">{{ post.date | readableDate }} · {{ post.data.category }} · {{ post.data.track }}</span>
+      {%- if post.data.description %}<p class="post-preview">{{ post.data.description }}</p>{%- endif %}
+    </li>
+    {%- endif %}
+    {%- endfor %}
+  </ul>
+  <p class="more"><a href="/thoughts/">Read more →</a></p>
 </section>
 
 {% include "experience-logos.njk" %}
+
+<section class="home-connect">
+  <h2>Let's connect</h2>
+  <p>Want to trade ideas on AI, get thoughts on a startup, or tell me I've got a bad take? I'd genuinely like to hear from you.</p>
+  <p class="hero-actions"><a class="btn" href="/connect/">Get in touch</a></p>
+</section>
