@@ -1,0 +1,72 @@
+---
+layout: base.njk
+title: "Build your own MCP"
+description: "I wrote about MCP, then built one — a tiny, working Model Context Protocol server you can download and add to your favorite AI client in a few minutes."
+---
+<section class="page-head">
+  <h1>Build your own MCP</h1>
+  <p class="section-note">I wrote about it, so I figured I should build one. A tiny, working MCP server — download it and add it to your favorite AI tool.</p>
+</section>
+
+<section class="case-study">
+  <h2>Why</h2>
+  <p>
+    I wrote a post — <a href="/posts/you-down-with-mcp/">You down with MCP?</a> — arguing that MCP is
+    the boring plumbing that makes the interesting agent stuff possible. Writing it left me with an
+    itch: if this protocol is so foundational, how hard is it to actually build one myself? Turns out,
+    not hard at all. So I built a tiny one to prove the point.
+  </p>
+
+  <h2>The gist</h2>
+  <ul class="case-steps">
+    <li>Pick what to expose — a <em>tool</em> (an action) or a <em>resource</em> (data). Start with one.</li>
+    <li>Install the official SDK: <code>pip install mcp</code> (Python; there's a TypeScript one too).</li>
+    <li>Define each tool: a name, a description, typed inputs, and a handler function.</li>
+    <li>Pick a transport — <code>stdio</code> for local is the easy default.</li>
+    <li>Point your MCP client (Claude Desktop, Claude Code, Cursor…) at the file and restart.</li>
+  </ul>
+  <p>No LLM API key needed to <em>run</em> the server — it just exposes tools. Your client brings the model.</p>
+
+  <h2>The whole server</h2>
+  <p>That's not a teaser — this is the entire thing:</p>
+  <pre class="codeblock"><code>from mcp.server.fastmcp import FastMCP
+import random
+
+mcp = FastMCP("ryan-bowlin-starter")
+
+@mcp.tool()
+def roll_dice(sides: int = 6, count: int = 1) -> str:
+    """Roll `count` dice with `sides` sides each; returns the rolls and total."""
+    rolls = [random.randint(1, sides) for _ in range(count)]
+    return f"Rolled {count}d{sides}: {rolls}  (total: {sum(rolls)})"
+
+@mcp.tool()
+def about_ryan() -> str:
+    """A short bio for Ryan Bowlin and where to find his work."""
+    return "Ryan Bowlin — Senior PM who builds and ships production AI. https://rcbowlin1.github.io"
+
+if __name__ == "__main__":
+    mcp.run()  # stdio transport by default</code></pre>
+
+  <p class="hero-actions"><a class="btn" href="/ryan-bowlin-mcp.py" download>Download the server (.py) ↓</a></p>
+
+  <h2>Add it to your tool</h2>
+  <p>Drop this into your MCP client's config (paths and file name may vary by client), then restart:</p>
+  <pre class="codeblock"><code>{
+  "mcpServers": {
+    "ryan-bowlin-starter": {
+      "command": "python",
+      "args": ["/full/path/to/ryan-bowlin-mcp.py"]
+    }
+  }
+}</code></pre>
+  <p>Restart the client and your agent can now roll dice and, apparently, tell you about me. Swap in your own tools from there — the pattern is the whole point.</p>
+
+  <h2>The takeaway</h2>
+  <p>
+    ~30 lines, and any agent that speaks MCP can now use it. That's the argument from the post made
+    concrete: the protocol is deliberately boring, which is exactly why it scales.
+  </p>
+
+  <p class="back">Want the <em>why</em> behind this — where MCP came from and why it matters? Read <a href="/posts/you-down-with-mcp/">You down with MCP? Yeah, you know me!</a></p>
+</section>

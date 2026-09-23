@@ -3,6 +3,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/img");
   eleventyConfig.addPassthroughCopy("src/ryan-bowlin-resume.pdf");
+  eleventyConfig.addPassthroughCopy("src/ryan-bowlin-mcp.py");
 
   // Human-readable dates for posts (e.g., "September 22, 2026").
   eleventyConfig.addFilter("readableDate", (value) => {
