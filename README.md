@@ -1,6 +1,6 @@
 # rcbowlin1.github.io
 
-Personal site for Ryan Bowlin — product manager who builds and ships production AI.
+Personal site for Ryan Bowlin — Senior Product Manager who builds and ships production AI.
 
 Built with [Eleventy](https://www.11ty.dev/) (static site generator). Deployed to GitHub Pages
 via GitHub Actions on every push to `main`.

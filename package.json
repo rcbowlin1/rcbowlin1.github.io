@@ -2,7 +2,7 @@
   "name": "rcbowlin1.github.io",
   "version": "1.0.0",
   "private": true,
-  "description": "Personal site for Ryan Bowlin — product manager who builds and ships production AI.",
+  "description": "Personal site for Ryan Bowlin — Senior Product Manager who builds and ships production AI.",
   "scripts": {
     "build": "eleventy",
     "serve": "eleventy --serve"
