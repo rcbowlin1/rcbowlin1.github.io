@@ -145,6 +145,12 @@ section:not(.hero):not(.no-count) > h2::before {
 /* Post index (Thoughts) */
 .post-preview { margin: 4px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.5; max-width: 64ch; }
 .thinking-note { max-width: 82ch; }
+.backlog-list a { font-weight: 500; }
+.notfound { text-align: center; padding: 72px 0 80px; }
+.notfound-dog { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); box-shadow: 0 0 0 10px rgba(52,211,153,0.08); margin: 0 auto 28px; display: block; }
+.notfound h1 { font-size: 2.2rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+.notfound p { color: var(--muted); font-size: 1.05rem; margin: 0; }
+.notfound-back { margin-top: 24px; font-family: var(--mono); font-size: 0.85rem; }
 .home-connect { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 32px; }
 .home-connect p { color: var(--muted); max-width: 60ch; }
 .connect-grid { display: grid; gap: 18px; margin-top: 8px; }

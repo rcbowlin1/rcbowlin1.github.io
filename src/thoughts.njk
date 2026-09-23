@@ -78,3 +78,16 @@ title: Thoughts
   <p class="placeholder">[ First post coming soon — the deterministic-vs-agentic piece. ]</p>
   {% endif %}
 </section>
+
+<section class="backlog">
+  <h2>The Backlog</h2>
+  <p class="section-note">We run agile around here… (I'm probably working on a new feature)</p>
+  <ul class="post-index backlog-list">
+    {%- for item in backlog %}
+    <li>
+      <a href="/posts/{{ item.slug }}/">{{ item.title }}</a>
+      <span class="post-meta">{{ item.track }} · not yet written</span>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
