@@ -143,6 +143,10 @@ section:not(.hero):not(.no-count) > h2::before {
 .proof-list span { color: var(--muted); font-size: 0.98rem; }
 
 /* Post index (Thoughts) */
+.connect-grid { display: grid; gap: 18px; margin-top: 8px; }
+.connect-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px 26px; }
+.connect-card h2 { margin: 0 0 8px; font-size: 1.3rem; }
+.connect-card p { margin: 0 0 18px; color: var(--muted); max-width: 62ch; }
 .masked-note {
   border-left: 3px solid var(--accent);
   background: var(--surface);
