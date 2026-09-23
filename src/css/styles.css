@@ -143,6 +143,17 @@ section:not(.hero):not(.no-count) > h2::before {
 .proof-list span { color: var(--muted); font-size: 0.98rem; }
 
 /* Post index (Thoughts) */
+.thoughts-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 26px; }
+.filter-group { display: inline-flex; gap: 6px; }
+.filter-btn, .sort-btn {
+  font-family: var(--mono); font-size: 0.78rem; color: var(--muted);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 14px; cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.filter-btn:hover, .sort-btn:hover { color: var(--fg); border-color: var(--muted); }
+.filter-btn.is-active { color: var(--bg); background: var(--accent); border-color: var(--accent); font-weight: 600; }
+.post-track { color: var(--accent); }
 .post-index { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; }
 .post-index li { display: flex; flex-direction: column; gap: 2px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
 .post-index a { font-weight: 600; color: var(--fg); text-decoration: none; font-size: 1.15rem; }
