@@ -1,0 +1,66 @@
+---
+layout: base.njk
+title: "Scaling sustainability fact sheets with an AI pipeline"
+description: "A masked look at an AI pipeline for product carbon-footprint fact sheets: ingest third-party-assured LCA data, match it to approved claims, and auto-generate the design — with less manual work."
+---
+<section class="page-head">
+  <h1>Scaling sustainability fact sheets with an AI pipeline</h1>
+  <p class="section-note">Turning third-party-assured lifecycle data into localized, design-ready product carbon-footprint fact sheets — with a fraction of the manual design effort.</p>
+</section>
+
+<section class="case-study">
+  <p class="masked-note">
+    This case study has been deliberately masked. Product and program names, specific figures,
+    claims, and internal tooling details have been removed to protect confidential information.
+    What remains is the shape of the problem and the approach.
+  </p>
+
+  <h2>The problem</h2>
+  <p>
+    Across a broad device portfolio, we publish product carbon-footprint (PCF) fact sheets —
+    customer-facing documents that summarize a product's environmental impact. Producing them
+    is design-heavy, and scaling them beyond a single market multiplies the effort: every
+    product, every locale, is a fresh round of manual layout and copy. The design work — not
+    the data — was the bottleneck to scaling.
+  </p>
+
+  <h2>How I framed it</h2>
+  <p>
+    Most of the work was repeatable: the same assured lifecycle data flowing into the same
+    document structure, over and over. That's a job for deterministic code, not human hours —
+    and not, on its own, for an autonomous agent. The genuine ambiguity lived only at the edges:
+    interpreting messy inputs and assembling design. So I designed a pipeline with a
+    <strong>deterministic core</strong> and pushed the fuzzy parts to the boundary.
+  </p>
+
+  <h2>What I built</h2>
+  <ul class="case-steps">
+    <li><strong>Ingest</strong> third-party-assured LCA results into the tool as the single source of truth.</li>
+    <li><strong>Match</strong> that data to pre-cleared, approved claim language — deterministically, so the substance is never invented.</li>
+    <li><strong>Run agents</strong> at the edges to structure and assemble the content into the document layout.</li>
+    <li><strong>Push to Figma via MCP</strong> to generate the design elements programmatically, instead of rebuilding each sheet by hand in external design software.</li>
+  </ul>
+  <p>
+    One rule held throughout: the agents could shape the <em>form</em> — layout, assembly,
+    formatting — but never the <em>substance</em>. Every published number and claim traces back
+    to the assured data and pre-approved language; validation stayed deterministic. In a
+    compliance-sensitive domain, that boundary isn't optional.
+  </p>
+
+  <h2>What it changed</h2>
+  <p>
+    Producing a fact sheet went from days of manual design to a largely automated run, and the
+    pipeline removed the dependency on external design software for the bulk of the work — which
+    is what makes scaling to more products and more locales actually feasible.
+  </p>
+
+  <h2>The honest caveat</h2>
+  <p>
+    It's not magic, and it's not done. Human review still owns the final call — especially
+    anything a regulator could read. The value wasn't replacing judgment; it was clearing away
+    the repeatable design labor so people could spend their time on the parts that genuinely
+    need a human.
+  </p>
+
+  <p class="back"><a href="/work/">← Back to Work</a></p>
+</section>
