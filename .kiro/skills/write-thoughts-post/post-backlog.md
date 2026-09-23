@@ -64,6 +64,10 @@ We'll add a short framing note about the series when there are enough of them.
 - **The deletion metric** — `Building · Work`
   Thesis: measure an AI project by how much of it you got to *delete* afterward. The agent
   that works itself out of a job. Direct sequel to the close of Agent vs. Code.
+- **Can agents run an entire small business? News at 6.** — `Thinking · Work`
+  The honest stress-test of the "agents do everything" hype: which parts of running a real
+  small business could an agent actually own end-to-end, and where a human or a deterministic
+  system is still load-bearing. (Can lean on real SMB analysis — genericize any specifics.)
 
 ## Queued (Work — Product management)
 - **The doc is the thinking, not the memo** — `Thinking · Work`
@@ -75,6 +79,10 @@ We'll add a short framing note about the series when there are enough of them.
 - **Prioritization is subtraction** — `Thinking · Work`
   The hard part of a roadmap isn't picking what to build; it's defending what you won't —
   operational excellence and the discipline of "no."
+- **PM + AI: the fundamentals still win** — `Thinking · Work`
+  Thesis: PMing AI is more than "you're an expert in [field], build me [product]." Working
+  backwards from the customer and defining + ruthlessly prioritizing requirements *before* you
+  prompt is still P0. The model lowers the cost of building, not the cost of knowing what to build.
 
 ---
 
