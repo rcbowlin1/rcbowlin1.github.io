@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- Source for the OG/link-preview image. Rendered to src/img/og-card.png via Chrome headless --screenshot at 1200x630. Not published. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e0e10; --fg: #ededec; --muted: #9a9aa2;
+    --accent: #34d399; --line: #26262c;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "SF Mono", Menlo, Consolas, monospace;
+  }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 72px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* subtle emerald glow, top-left */
+  body::before {
+    content: "";
+    position: absolute;
+    top: -220px; left: -160px;
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(52,211,153,0.14) 0%, rgba(52,211,153,0) 68%);
+    pointer-events: none;
+  }
+  .text { max-width: 620px; position: relative; z-index: 2; }
+  .eyebrow {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 26px;
+  }
+  h1 {
+    font-size: 92px;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-bottom: 26px;
+  }
+  .tagline {
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--fg);
+  }
+  .url {
+    font-family: var(--mono);
+    font-size: 24px;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+  .url b { color: var(--accent); font-weight: 600; }
+  .portrait {
+    position: relative;
+    z-index: 2;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 22%;
+    border: 4px solid var(--accent);
+    box-shadow: 0 0 0 12px rgba(52,211,153,0.08);
+    flex-shrink: 0;
+  }
+  .accent-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 10px;
+    background: var(--accent);
+  }
+</style>
+</head>
+<body>
+  <div class="text">
+    <div class="eyebrow">Product Manager · Applied AI</div>
+    <h1>Ryan Bowlin</h1>
+    <div class="tagline">I build and ship production AI.</div>
+    <div class="url">rcbowlin1.github.io</div>
+  </div>
+  <img class="portrait" src="src/img/ryan-bowlin.jpg" alt="Ryan Bowlin" />
+  <div class="accent-bar"></div>
+</body>
+</html>
