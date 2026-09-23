@@ -22,7 +22,11 @@ But — and this is the part the breathless takes skip — a mechanism is only a
 
 Now zoom out from the org to the consumer, because this is where it gets interesting.
 
-Standardize how agents reach tools, and apps stop being screens *you* open and start being things an agent *operates* on your behalf. You can already see two philosophies competing. Apple's App Intents is the walled version — a proprietary framework that lets *Apple's* assistant act inside your app. MCP is the open version — any assistant, any vendor, no permission slip. And the tell is that even Apple, patron saint of the walled garden, adopted MCP in Xcode so outside agents like Claude could drive its tools directly. When interop actually matters, the open standard wins the seams between ecosystems.
+Standardize how agents reach tools, and apps stop being screens *you* open and start being things an agent *operates* on your behalf.
+
+Picture it: you're mid-game in your favorite chess app and a notification lands — your opponent just moved. You don't open anything. You just say, "Hey Siri, queen to h5 — checkmate," and it plays the move. Game won, from the lock screen, without ever opening the app. This is silly, but you get the idea — and I think it's the future, coming fast.
+
+You can already see two philosophies competing. Apple's App Intents is the walled version — a proprietary framework that lets *Apple's* assistant act inside your app. MCP is the open version — any assistant, any vendor, no permission slip. And the tell is that even Apple, patron saint of the walled garden, adopted MCP in Xcode so outside agents like Claude could drive its tools directly. When interop actually matters, the open standard wins the seams between ecosystems.
 
 That shift — from "my app has an assistant" to "any assistant can use my app" — is exactly what a lot of companies are now hiring forward-deployed AI PMs to navigate. Someone has to decide which capabilities you expose, to which agents, walled or open, and how you don't get owned in the process. It's the same mechanism as the internal registry, just pointed outward.
 
