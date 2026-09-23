@@ -6,7 +6,7 @@ track: Work
 description: "What MCP is, why it quietly won, and the part that actually matters — the registry as a mechanism, and the open standard pulling us toward a consumer-agent world."
 ---
 
-Quick catch-up for anyone who hasn't gone down this particular rabbit hole.
+Quick catch-up for anyone who hasn't gone down this particular rabbit hole. (Already sold and just want to build one? I made a tiny MCP you can download — [grab it here](/work/build-your-own-mcp/).)
 
 MCP — the Model Context Protocol — is an open standard Anthropic released in late 2024 to fix a boring, expensive problem: every AI-to-tool connection used to be a custom integration. N tools times M assistants equals a mess. MCP defines one universal interface — think HTTP for browsers, or the standard plug shape behind every wall — so any AI can talk to any tool without a bespoke connector.
 
