@@ -6,7 +6,7 @@
   {% set pageTitle = (title + " · " + site.name) if title else site.name %}
   {% set pageDesc = description or site.description %}
   {% set pageUrl = (site.url + page.url) %}
-  {% set ogImageUrl = (site.url + site.ogImage) %}
+  {% set ogImageUrl = (site.url + site.ogImage + "?v=" + assets.ogHash) %}
   <title>{{ pageTitle }}</title>
   <meta name="description" content="{{ pageDesc }}" />
   <link rel="canonical" href="{{ pageUrl }}" />
@@ -29,7 +29,7 @@
   <meta name="twitter:image" content="{{ ogImageUrl }}" />
 
   <link rel="icon" href="/img/favicon.png" type="image/png" />
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/styles.css?v={{ assets.cssHash }}" />
 </head>
 <body>
   <header class="site-header">
