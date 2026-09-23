@@ -309,3 +309,6 @@ section:not(.hero):not(.no-count) > h2::before {
 /* Consulting nav CTA (green pill in the top nav) */
 .site-header nav a.nav-cta { background: var(--accent); color: #06231a; padding: 6px 14px; border-radius: 6px; }
 .site-header nav a.nav-cta:hover { color: #06231a; opacity: 0.9; }
+
+/* Footer AI disclaimer */
+.disclaimer { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); max-width: 64ch; margin: 0 0 18px; line-height: 1.5; }
