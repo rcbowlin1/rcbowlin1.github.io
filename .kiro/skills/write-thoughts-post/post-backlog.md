@@ -1,16 +1,37 @@
-# Thoughts — post backlog
+# Content backlog — Thoughts posts + Work case studies
 
-Living queue of post ideas for the Thoughts section. Pair with `SKILL.md`
-(the how-to). Move an item to **Shipped** once it's pushed. Keep titles playful;
-keep theses sharp (one line each).
+Living queue for the site's content. Two streams:
+- **Thoughts posts** — short essays (see `SKILL.md`). Front matter: title, date,
+  category (Building/Thinking/Learning), track (Work/Play), description.
+- **Work case studies** — pages under `/work/…`, masked where they touch confidential
+  work. Method and judgment on display, never confidential data.
 
-Overlap between the agent-themed posts is fine and intentional — the whole field
-is "agents this, agents that," so multiple angles on the same beast is the point.
-We'll add a short framing note about the series when there are enough of them.
+Move an item to **Shipped** once it's pushed. Keep titles playful; theses sharp.
+Overlap between the agent-themed posts is fine and intentional — the whole field is
+"agents this, agents that," so multiple angles on the same beast is the point.
 
 ---
 
-## Shipped
+## Case studies (Work section pages)
+
+**Shipped**
+- **Valuing new-to-world investments** — `/work/valuing-new-bets/` — *masked.*
+  Return-vs-risk framework for bets with no comparables; building a shared org decision framework.
+- **Scaling sustainability fact sheets with an AI pipeline** — `/work/scaling-sustainability-fact-sheets/` — *masked.*
+  Deterministic-core pipeline: assured LCA data → approved claims → agents → Figma via MCP.
+
+**Queued**
+- **Quiver (masked)** — a decision-support catalog for prioritizing sustainability investments:
+  turning scattered institutional knowledge into a queryable, rankable system for deciding which
+  levers to apply where. Mask hard — no internal levers, product lines, scoring specifics, or data.
+- **A process flow orchestrated via MCP + Asana (building now)** — a real multi-step work process
+  run across tools, with Asana as the system of record and MCP as the connective tissue. Shows
+  practical MCP integration + workflow automation. Also feeds the "You down with MCP?" post. Ship
+  the case study once it's further along; mask if the underlying process is internal.
+
+---
+
+## Thoughts posts — Shipped
 - **Agent vs. Code… who ya gonna call?** — `Thinking · Work` — `agent-vs-code.md`
   Thesis: default to code; an agent only earns its place when the input space
   can't be enumerated in advance. The agent's real job is turning
@@ -90,12 +111,12 @@ We'll add a short framing note about the series when there are enough of them.
 One post per session: I draft from the thesis, you react, we ship. Reorder freely;
 MCP can jump the line since it's the strongest Anthropic signal.
 
-**This week — ~10 min/day**
-- **Tue 9/22** — ✅ Agent vs. Code (shipped)
-- **Wed 9/23** — Art Vandelay, Agent Architect
-- **Thu 9/24** — Graph Engineering for Workflows
-- **Fri 9/25** — You down with MCP?
-- **Next up** — a Play post (Hot Springs or Scottsdale reads easiest first)
+**This week — ~10 min/day** (Thoughts posts and Work case studies interleave)
+- **Tue 9/22** — ✅ Agent vs. Code (Thoughts) + 2 Work case studies (shipped)
+- **Wed 9/23** — Quiver case study (masked)
+- **Thu 9/24** — Art Vandelay, Agent Architect (Thoughts)
+- **Fri 9/25** — You down with MCP? (Thoughts)
+- **Next up** — Graph Engineering; the MCP + Asana case study once further along; a Play post
 
 **Scaling rule:** once ~50 posts are published, drop to every-other-day (or a
 lighter weekly cadence) — the point by then is quality and range, not volume.
