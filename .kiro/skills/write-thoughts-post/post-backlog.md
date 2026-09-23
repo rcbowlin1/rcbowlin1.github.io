@@ -8,6 +8,8 @@ One list. `[Thoughts]` = a Thoughts post · `[Work]` = a Work case-study page.
 - ✅ [Work] Scaling sustainability fact sheets with an AI pipeline (masked)
 - [Work] Quiver (masked) — next
 - [Work] Process flow via MCP + Asana (building)
+- [Thoughts] Can AI simulate all 8.3B of us? — the "persona agents" research (MatrAIx, Harvard/MIT-led, arXiv Aug 2026; verify details when drafting) ← high priority
+- [Thoughts] Does my AI like me? — do you get better outputs if you're nice to your AI, and can we actually measure it?
 - [Thoughts] Art Vandelay, (Agent) Architect
 - [Thoughts] Graph Engineering for Workflows
 - [Thoughts] You down with MCP? Yeah, you know me!
