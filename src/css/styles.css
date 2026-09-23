@@ -349,6 +349,8 @@ section:not(.hero):not(.no-count) > h2::before {
 /* Consulting nav CTA (green pill in the top nav) */
 .site-header nav a.nav-cta { background: var(--accent); color: #06231a; padding: 6px 14px; border-radius: 6px; }
 .site-header nav a.nav-cta:hover { color: #06231a; opacity: 0.9; }
+.site-header nav a.nav-cta-outline { border: 1px solid var(--accent); color: var(--accent); padding: 5px 13px; border-radius: 6px; }
+.site-header nav a.nav-cta-outline:hover { background: var(--accent); color: #06231a; }
 
 /* Footer AI disclaimer */
 .disclaimer { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin: 0 0 18px; line-height: 1.6; }
