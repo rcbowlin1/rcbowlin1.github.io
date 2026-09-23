@@ -1,92 +1,101 @@
 <!DOCTYPE html>
-<!-- PRINT SOURCE for src/resume.pdf. Not published (lives outside src/). Public-safe: no phone number.
+<!-- PRINT SOURCE for src/ryan-bowlin-resume.pdf. Not published (lives outside src/). Public-safe: no phone.
      Regenerate: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
-       --no-pdf-header-footer --print-to-pdf=src/resume.pdf file://$PWD/resume-print.html -->
+       --no-pdf-header-footer --print-to-pdf=src/ryan-bowlin-resume.pdf file://$PWD/resume-print.html -->
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <style>
   @page { size: Letter; margin: 0.5in 0.62in; }
   * { box-sizing: border-box; }
-  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; color: #1a1a1a; font-size: 10pt; line-height: 1.38; margin: 0; }
-  h1 { font-size: 19pt; margin: 0 0 2pt; letter-spacing: -0.02em; }
-  .contact { font-size: 9pt; color: #444; margin: 0 0 9pt; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; color: #232323; font-size: 10pt; line-height: 1.4; margin: 0; }
+
+  .name { font-size: 23pt; font-weight: 800; letter-spacing: -0.02em; color: #0f5c4e; margin: 0; }
+  .contact { font-size: 9pt; color: #555; margin: 4pt 0 0; }
+  .rule { height: 2px; background: #0f5c4e; border: 0; margin: 9pt 0 11pt; }
+
   .summary { margin: 0 0 9pt; }
-  .skills { font-size: 8.8pt; color: #333; margin: 0 0 6pt; }
-  h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: 0.07em; border-bottom: 1px solid #bbb; padding-bottom: 2pt; margin: 12pt 0 6pt; }
-  .company { font-weight: 700; font-size: 10.5pt; margin-top: 8pt; }
-  .company .loc { font-weight: 400; color: #555; font-size: 9pt; }
-  .role { margin: 2pt 0 0; }
+  .skills { font-size: 8.8pt; color: #333; margin: 0; line-height: 1.5; }
+  .skills .lbl { font-weight: 700; color: #0f5c4e; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  h2 { font-size: 10pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: #0f5c4e;
+       margin: 14pt 0 7pt; padding-bottom: 3pt; border-bottom: 1px solid #cdd8d4; }
+
+  .job { display: flex; justify-content: space-between; align-items: baseline; margin-top: 9pt; }
+  .job .co { font-weight: 700; font-size: 10.5pt; }
+  .job .loc { color: #666; font-size: 9pt; }
+
+  .role { display: flex; justify-content: space-between; align-items: baseline; margin-top: 4pt; }
   .role .rt { font-weight: 600; }
-  .role .meta { color: #555; font-style: italic; font-size: 9pt; }
-  ul { margin: 2pt 0 4pt; padding-left: 15pt; }
-  li { margin-bottom: 2.5pt; }
-  .edu { margin: 2pt 0 0; }
+  .role .dt { color: #666; font-size: 9pt; font-style: italic; white-space: nowrap; padding-left: 14pt; }
+  .prog { color: #777; font-size: 8.6pt; font-style: italic; margin: 1pt 0 0; }
+
+  ul { margin: 3pt 0 5pt; padding-left: 15pt; }
+  li { margin-bottom: 2.6pt; }
+  .edu { margin: 2pt 0 0; line-height: 1.6; }
 </style>
 </head>
 <body>
-  <h1>Ryan C. Bowlin</h1>
+  <p class="name">Ryan C. Bowlin</p>
   <p class="contact">rcbowlin1@gmail.com &nbsp;·&nbsp; linkedin.com/in/ryan-bowlin &nbsp;·&nbsp; github.com/rcbowlin1 &nbsp;·&nbsp; Sunnyvale, CA</p>
+  <hr class="rule" />
 
-  <p class="summary">Product manager who builds and ships production AI. Designed, built, and operate a production LLM pipeline — owning the model, orchestration, and human-in-the-loop evaluation — that scaled customer-facing content from one marketplace to 14 (42 locales) while cutting production costs roughly 90%. Over twelve years turning ambiguous, high-stakes problems into strategies that work and things that ship, on small 2&ndash;5 person teams, from Fortune 500 retail buyers to Amazon leadership. Equally at home whiteboarding with an exec and writing the PRD for the engineers who build it.</p>
+  <p class="summary">Product manager who builds and ships production AI. Over twelve years turning ambiguous, high-stakes problems into strategies that work and things that ship, on small 2&ndash;5 person teams, from Fortune 500 retail buyers to Amazon leadership. Equally at home whiteboarding with an exec and writing the PRD for the engineers who build it.</p>
 
-  <p class="skills"><strong>Skills:</strong> Applied AI &amp; LLMs · PRDs / BRDs / PR-FAQ · AI evaluation · 0-to-1 product &amp; GTM · adoption &amp; change management · stakeholder &amp; client management · executive communication · Python · SQL · Power BI · business &amp; price-elasticity modeling</p>
+  <p class="skills"><span class="lbl">Skills</span> &nbsp; Applied AI &amp; LLMs &middot; PRDs / BRDs / PR-FAQ &middot; AI evaluation &middot; 0-to-1 product &amp; GTM &middot; adoption &amp; change management &middot; stakeholder &amp; client management &middot; executive communication &middot; Python &middot; SQL &middot; Power BI &middot; business &amp; price-elasticity modeling</p>
 
   <h2>Experience</h2>
 
-  <div class="company">Amazon <span class="loc">— Sunnyvale, CA · June 2020&ndash;Present</span></div>
+  <div class="job"><span class="co">Amazon</span><span class="loc">Sunnyvale, CA &middot; June 2020 &ndash; Present</span></div>
 
-  <div class="role"><span class="rt">Senior Product Manager, Energy &amp; Sustainability</span> <span class="meta">Jan 2025&ndash;Present</span>
-    <ul>
-      <li>Designed, built, and operate a <strong>production LLM pipeline</strong> generating customer-facing content, scaling it from 1 marketplace to <strong>14 marketplaces (42 locales)</strong> — owning the model, orchestration, and human-in-the-loop evaluation — while cutting <strong>production time from ~24 hours to ~4</strong> and <strong>costs ~90%</strong>, eliminating the need for a contract role.</li>
-      <li>Authored several <strong>PRDs and BRDs</strong> defining an AI content-automation platform and its successor products — requirements, workflows, edge cases, and <strong>evaluation criteria for AI systems</strong>.</li>
-      <li>Gathered customer stories and field insights to shape the roadmap, working backwards from real customer problems to proposed solutions, then formed the planning narrative that won <strong>VP/SVP alignment and funding</strong>.</li>
-      <li>Own the Climate Pledge Friendly and carbon-transparency <strong>GTM across 25+ worldwide launches, enabling $100MM+ in annual revenue</strong>.</li>
-    </ul>
-  </div>
+  <div class="role"><span class="rt">Senior Product Manager, Energy &amp; Sustainability</span><span class="dt">Jan 2025 &ndash; Present</span></div>
+  <ul>
+    <li>Designed, built, and operate a <strong>production LLM pipeline</strong> generating customer-facing content, scaling it from 1 marketplace to <strong>14 marketplaces (42 locales)</strong> &mdash; owning the model, orchestration, and human-in-the-loop evaluation &mdash; while cutting <strong>production time from ~24 hours to ~4</strong> and <strong>costs ~90%</strong>, eliminating the need for a contract role.</li>
+    <li>Authored several <strong>PRDs and BRDs</strong> defining an AI content-automation platform and its successor products &mdash; requirements, workflows, edge cases, and <strong>evaluation criteria for AI systems</strong>.</li>
+    <li>Gathered customer stories and field insights to shape the roadmap, working backwards from real customer problems to proposed solutions, then formed the planning narrative that won <strong>VP/SVP alignment and funding</strong>.</li>
+    <li>Own the Climate Pledge Friendly and carbon-transparency <strong>GTM across 25+ worldwide launches, enabling $100MM+ in annual revenue</strong>.</li>
+  </ul>
 
-  <div class="role"><span class="rt">Product Manager, Finance — New Product Innovation</span> <span class="meta">Oct 2022&ndash;Jan 2025</span>
-    <ul>
-      <li>Shaped <strong>$1B+ of 0-to-1 investment decisions</strong> across 5 product lines and 15+ new businesses — fund/no-fund calls on incomplete information in spaces with no established playbook.</li>
-      <li>Drove 0-to-1 evaluation of ambitious new-business bets (indoor agriculture, an EV-charging network, a home energy-management hardware platform), weighing customer, technical, and economic <strong>trade-offs</strong> under deep uncertainty; <strong>two reached CEO-level review</strong>.</li>
-      <li>Created the GTM strategy for a new initiative that closed a <strong>$300MM+ partnership</strong>, driving the build-vs-buy-vs-partner analysis across BD, Engineering, and Operations.</li>
-    </ul>
-  </div>
+  <div class="role"><span class="rt">Product Manager, Finance &mdash; New Product Innovation</span><span class="dt">Oct 2022 &ndash; Jan 2025</span></div>
+  <ul>
+    <li>Shaped <strong>$1B+ of 0-to-1 investment decisions</strong> across 5 product lines and 15+ new businesses &mdash; fund/no-fund calls on incomplete information in spaces with no established playbook.</li>
+    <li>Drove 0-to-1 evaluation of ambitious new-business bets (indoor agriculture, an EV-charging network, a home energy-management hardware platform), weighing customer, technical, and economic <strong>trade-offs</strong> under deep uncertainty; <strong>two reached CEO-level review</strong>.</li>
+    <li>Created the GTM strategy for a new initiative that closed a <strong>$300MM+ partnership</strong>, driving the build-vs-buy-vs-partner analysis across BD, Engineering, and Operations.</li>
+  </ul>
 
-  <div class="role"><span class="rt">Product Analyst, Finance</span> <span class="meta">June 2020&ndash;Oct 2022</span>
-    <ul>
-      <li>As the <strong>sole finance &amp; GTM partner</strong> on 2-person "Build It" incubator teams, co-defined the business and built the demand and business model, rapidly shipping <strong>3 consumer-electronics products from concept to launch</strong> (founder/CEO-sponsored).</li>
-      <li>Co-authored the <strong>PR/FAQ</strong> for Amazon's Echo custom silicon (AZ3 / AZ3 Pro) and modeled the product-intercept plan — products, unit volumes, cost impact, features to design for.</li>
-      <li>Dropped into an unfamiliar operations problem and <strong>saved $25MM+</strong> by restructuring sourcing and manufacturing strategy ahead of regulatory change.</li>
-    </ul>
-  </div>
+  <div class="role"><span class="rt">Product Analyst, Finance</span><span class="dt">June 2020 &ndash; Oct 2022</span></div>
+  <ul>
+    <li>As the <strong>sole finance &amp; GTM partner</strong> on 2-person "Build It" incubator teams, co-defined the business and built the demand and business model, rapidly shipping <strong>3 consumer-electronics products from concept to launch</strong> (founder/CEO-sponsored).</li>
+    <li>Co-authored the <strong>PR/FAQ</strong> for Amazon's Echo custom silicon (AZ3 / AZ3 Pro) and modeled the product-intercept plan &mdash; products, unit volumes, cost impact, features to design for.</li>
+    <li>Dropped into an unfamiliar operations problem and <strong>saved $25MM+</strong> by restructuring sourcing and manufacturing strategy ahead of regulatory change.</li>
+  </ul>
 
-  <div class="company">Heineken USA <span class="loc">— White Plains, NY · Sept 2018&ndash;June 2020</span></div>
-  <div class="role"><span class="rt">Senior Strategy Manager, Revenue Management</span> <span class="meta">advanced from Strategy Manager</span>
-    <ul>
-      <li>Built <strong>Python and Power BI automation</strong> that replaced manual reporting, sharpened insights, and rapidly generated sales decks for commercial teams.</li>
-      <li>Reporting to the <strong>CFO</strong>, generated <strong>~$30MM in organic sales growth</strong> optimizing pricing and promotion across brands (Heineken, Dos Equis, Tecate) and major distributors nationwide.</li>
-      <li>Led creation of Heineken USA's Revenue Management team, partnering with global leaders on KPI frameworks, operating rhythms, and cross-org alignment.</li>
-    </ul>
-  </div>
+  <div class="job"><span class="co">Heineken USA</span><span class="loc">White Plains, NY &middot; Sept 2018 &ndash; June 2020</span></div>
+  <div class="role"><span class="rt">Senior Strategy Manager, Revenue Management</span><span class="dt">Sept 2018 &ndash; June 2020</span></div>
+  <p class="prog">Advanced from Strategy Manager</p>
+  <ul>
+    <li>Built <strong>Python and Power BI automation</strong> that replaced manual reporting, sharpened insights, and rapidly generated sales decks for commercial teams.</li>
+    <li>Reporting to the <strong>CFO</strong>, generated <strong>~$30MM in organic sales growth</strong> optimizing pricing and promotion across brands (Heineken, Dos Equis, Tecate) and major distributors nationwide.</li>
+    <li>Led creation of Heineken USA's Revenue Management team, partnering with global leaders on KPI frameworks, operating rhythms, and cross-org alignment.</li>
+  </ul>
 
-  <div class="company">Henkel <span class="loc">— Stamford, CT · May 2015&ndash;June 2018</span></div>
-  <div class="role"><span class="rt">Associate Manager, Revenue Management</span> <span class="meta">advanced through three roles: Sales/Category Development Analyst → FP&amp;A Analyst → Associate Manager</span>
-    <ul>
-      <li>Drove <strong>$55MM in profit</strong> across key retail accounts with assortment, pricing, and promotion strategies grounded in price-elasticity modeling — including <strong>300%+ revenue growth at Walmart</strong> via an EDLP strategy.</li>
-      <li>Stood up Henkel's Canadian Revenue Management function from the ground up, aligning with the Canadian GM and Marketing VP on KPIs and strategic plans.</li>
-    </ul>
-  </div>
+  <div class="job"><span class="co">Henkel</span><span class="loc">Stamford, CT &middot; May 2015 &ndash; June 2018</span></div>
+  <div class="role"><span class="rt">Associate Manager, Revenue Management</span><span class="dt">May 2015 &ndash; June 2018</span></div>
+  <p class="prog">Advanced through three roles: Sales/Category Development Analyst &rarr; FP&amp;A Analyst &rarr; Associate Manager</p>
+  <ul>
+    <li>Drove <strong>$55MM in profit</strong> across key retail accounts with assortment, pricing, and promotion strategies grounded in price-elasticity modeling &mdash; including <strong>300%+ revenue growth at Walmart</strong> via an EDLP strategy.</li>
+    <li>Stood up Henkel's Canadian Revenue Management function from the ground up, aligning with the Canadian GM and Marketing VP on KPIs and strategic plans.</li>
+  </ul>
 
-  <div class="company">Advantage Sales &amp; Marketing <span class="loc">— Bentonville, AR · Feb 2014&ndash;May 2015</span></div>
-  <div class="role"><span class="rt">Category Manager</span> <span class="meta">advanced from Category Analyst to Category Manager</span>
-    <ul>
-      <li>As an <strong>embedded in-house consultant for CPG clients (Sargento, Church &amp; Dwight)</strong>, shaped category and buyer strategy using Nielsen and store-level data to win merchandising and placement decisions at Walmart and Sam's Club.</li>
-    </ul>
-  </div>
+  <div class="job"><span class="co">Advantage Sales &amp; Marketing</span><span class="loc">Bentonville, AR &middot; Feb 2014 &ndash; May 2015</span></div>
+  <div class="role"><span class="rt">Category Manager</span><span class="dt">Feb 2014 &ndash; May 2015</span></div>
+  <p class="prog">Advanced from Category Analyst</p>
+  <ul>
+    <li>As an <strong>embedded in-house consultant for CPG clients (Sargento, Church &amp; Dwight)</strong>, shaped category and buyer strategy using Nielsen and store-level data to win merchandising and placement decisions at Walmart and Sam's Club.</li>
+  </ul>
 
   <h2>Education</h2>
-  <p class="edu"><strong>American University, Kogod School of Business</strong> — MBA, Concentration: Data Analytics<br />
-  <strong>Arkansas Tech University</strong> — BSBA, Concentration: Management &amp; Marketing</p>
+  <p class="edu"><strong>American University, Kogod School of Business</strong> &mdash; MBA, Concentration: Data Analytics<br />
+  <strong>Arkansas Tech University</strong> &mdash; BSBA, Concentration: Management &amp; Marketing</p>
 </body>
 </html>
