@@ -266,6 +266,27 @@ section:not(.hero):not(.no-count) > h2::before {
 .logo-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
 .logo-btn img { height: 44px; width: auto; max-width: 230px; object-fit: contain; display: block; }
 
+/* Mobile: static 2-column grid of each logo once (no scroll). Desktop keeps the marquee. */
+@media (max-width: 600px) {
+  .logos-section { overflow-x: hidden; }
+  .marquee { overflow: hidden; -webkit-mask-image: none; mask-image: none; margin-top: 14px; width: 100%; max-width: 100%; }
+  .marquee:has(.logo-row--right) { display: none; }
+  .logo-row--right { display: none; }
+  .logo-row--left {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    animation: none;
+  }
+  .logo-row--left li[aria-hidden="true"] { display: none; }
+  .logo-row--left > li { min-width: 0; }
+  .logo-btn { min-width: 0; width: 100%; box-sizing: border-box; padding: 12px; }
+  .logo-btn img { height: 28px; max-width: 100%; }
+}
+
 /* Company modal (native <dialog>) */
 .company-modal {
   position: fixed;
