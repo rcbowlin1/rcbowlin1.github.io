@@ -38,20 +38,56 @@ We'll add a short framing note about the series when there are enough of them.
   open questions (adoption/network effects, tool security & prompt injection).
   Write from real use — I've wired up a bunch of MCP servers.
 
-## Queued (balance the Work/Play filter)
-- **A Play post (TBD)** — `… · Play`
-  The Work/Play filter has nothing to filter until there's a Play entry.
-  Candidates: golf (TPC / Harding Park), the co-ed softball team, the LLC /
-  real-estate tinkering, or a general "why I tinker" piece. Pick one.
+## Queued (Play)
+- **Hot Springs, Arkansas: mobsters, bathhouses & a lot of lake** — `Learning · Play`
+  The unlikely mix — historic mob history, spring-training baseball, wellness/bathhouse
+  culture, and the surrounding lakes. A "you'd never guess this town" piece.
+- **Why is Scottsdale so known for golf?** — `Learning · Play`
+  The curiosity explainer: climate, land, the desert-course boom, the economics of a golf town.
+- **Fun things to do in the Bay Area** — `Learning · Play`
+  A transplant's running list — off the clock, opinionated, low-tourist.
+- **The bond market… who cares? (who's asking?)** — `Thinking · Play`
+  Plain-English take on why the bond market quietly runs everything and who's actually watching it.
+
+## Queued (Work — energy / domain)
+- **Power Purchase Agreements… where'd they go?** — `Thinking · Work`
+  Draws on the decarbonization/renewables background: what PPAs are, why they boomed,
+  and where the market/attention actually went. Genericize any confidential specifics.
+
+## Queued (Work — AI, novel angles)
+- **You have a non-determinism budget** — `Building · Work`
+  Thesis: non-determinism (and token spend) is a resource you *allocate*, like latency or
+  memory — not a free good. Where to spend it, where to refuse. Extends Agent vs. Code.
+- **Human-in-the-loop is a design smell** — `Thinking · Work`
+  Contrarian: HITL is often a band-aid for a system you didn't bound. Put the human on the
+  *edge* (structure/approve), not in the critical path. Ties to "push ambiguity to the edge."
+- **The deletion metric** — `Building · Work`
+  Thesis: measure an AI project by how much of it you got to *delete* afterward. The agent
+  that works itself out of a job. Direct sequel to the close of Agent vs. Code.
+
+## Queued (Work — Product management)
+- **The doc is the thinking, not the memo** — `Thinking · Work`
+  Amazon narrative/6-pager culture: writing isn't how you communicate the decision, it's how
+  you *find the flaw* in it. From lived experience writing 6-pagers and PR/FAQs.
+- **Feasibility is a PM skill, not an engineering handoff** — `Thinking · Work`
+  A PM who can assess technical feasibility changes the conversation — when to probe vs. trust
+  engineering. (Doubles as evidence for the PMT tech bar.)
+- **Prioritization is subtraction** — `Thinking · Work`
+  The hard part of a roadmap isn't picking what to build; it's defending what you won't —
+  operational excellence and the discipline of "no."
 
 ---
 
-## Cadence — ~10 min/day this week
-One post per session: I draft from the thesis above, you react, we ship. Reorder
-freely; MCP can jump the line since it's the strongest Anthropic signal.
+## Cadence
+One post per session: I draft from the thesis, you react, we ship. Reorder freely;
+MCP can jump the line since it's the strongest Anthropic signal.
 
+**This week — ~10 min/day**
 - **Tue 9/22** — ✅ Agent vs. Code (shipped)
 - **Wed 9/23** — Art Vandelay, Agent Architect
 - **Thu 9/24** — Graph Engineering for Workflows
 - **Fri 9/25** — You down with MCP?
-- **Next up** — a Play post to balance the filter
+- **Next up** — a Play post (Hot Springs or Scottsdale reads easiest first)
+
+**Scaling rule:** once ~50 posts are published, drop to every-other-day (or a
+lighter weekly cadence) — the point by then is quality and range, not volume.
