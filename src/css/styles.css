@@ -311,7 +311,6 @@ section:not(.hero):not(.no-count) > h2::before {
 .about-body p { color: #d7d7da; }
 .about-media { flex: 0 0 42%; max-width: 42%; }
 .about-media img { width: 100%; border-radius: 14px; border: 1px solid var(--line); display: block; object-fit: cover; }
-.about-media img.portrait { aspect-ratio: 4 / 3; object-fit: contain; background: var(--bg); }
 .img-placeholder {
   width: 100%;
   aspect-ratio: 4 / 3;
