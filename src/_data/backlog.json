@@ -1,21 +1,19 @@
 [
   { "title": "Red pill or blue pill… or green or yellow?", "slug": "persona-agents", "track": "Work" },
   { "title": "Does my AI like me?", "slug": "does-my-ai-like-me", "track": "Work" },
+  { "title": "Between the screens: Hot Springs, AR", "slug": "hot-springs-arkansas", "track": "Play" },
   { "title": "Art Vandelay, (Agent) Architect", "slug": "art-vandelay-agent-architect", "track": "Work" },
   { "title": "Thinking in… Graphs?", "slug": "graph-engineering", "track": "Work" },
   { "title": "You down with MCP? Yeah, you know me!", "slug": "you-down-with-mcp", "track": "Work" },
-  { "title": "You have a chaos budget", "slug": "non-determinism-budget", "track": "Work" },
+  { "title": "Check with finance", "slug": "non-determinism-budget", "track": "Work" },
   { "title": "Get the human out of the loop (my AI came up with this one…)", "slug": "human-in-the-loop-design-smell", "track": "Work" },
+  { "title": "Between the screens: Scottsdale, AZ", "slug": "scottsdale-golf", "track": "Play" },
   { "title": "I shipped 8 deletes this month", "slug": "the-deletion-metric", "track": "Work" },
   { "title": "Can agents run an entire small business? News at 6.", "slug": "agents-run-a-small-business", "track": "Work" },
   { "title": "…and why am I paying 1%?", "slug": "ai-stock-analysis", "track": "Work" },
-  { "title": "The memo is just the receipt", "slug": "the-doc-is-the-thinking", "track": "Work" },
-  { "title": "Stop outsourcing \"can we build it?\"", "slug": "feasibility-is-a-pm-skill", "track": "Work" },
   { "title": "Just say \"No\"!", "slug": "prioritization-is-subtraction", "track": "Work" },
   { "title": "Computa, ship my product", "slug": "pm-plus-ai-fundamentals", "track": "Work" },
   { "title": "Whatever happened to the PPA?", "slug": "power-purchase-agreements", "track": "Work" },
-  { "title": "Between the screens: Scottsdale, AZ", "slug": "scottsdale-golf", "track": "Play" },
-  { "title": "Between the screens: Hot Springs, AR", "slug": "hot-springs-arkansas", "track": "Play" },
-  { "title": "Between the screens: Bay Area", "slug": "bay-area", "track": "Play" },
-  { "title": "The bond market… who cares?", "slug": "bond-market", "track": "Play" }
+  { "title": "The bond market… who cares?", "slug": "bond-market", "track": "Play" },
+  { "title": "Between the screens: Bay Area", "slug": "bay-area", "track": "Play" }
 ]
