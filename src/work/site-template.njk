@@ -1,0 +1,51 @@
+---
+layout: base.njk
+title: "This site, as a template"
+description: "The scaffold behind this site, open-sourced — with the personal content stripped out and an AI prompt that interviews you and fills it back in. A tour of the design decisions and the tradeoffs behind each one."
+---
+<section class="page-head">
+  <h1>This site, as a template</h1>
+  <p class="section-note">I open-sourced the scaffold behind this site — layout, design system, and build — with my content and images stripped out. Point your AI at it and it interviews you and fills it back in.</p>
+</section>
+
+<section class="case-study">
+  <p class="lede">The interesting part isn't the HTML. It's the decisions — every default here is an opinion I can defend — and the fill mechanism: the template is a spec an agent operates on, not a file you hand-edit.</p>
+
+  <h2>What you get</h2>
+  <ul class="case-steps">
+    <li>A multi-page Eleventy site — home, about, work, writing, connect — with one data file (<code>profile.js</code>) driving nearly all the copy.</li>
+    <li>The whole design system in a single stylesheet: dark, editorial, restrained accent, elevated cards, the scrolling monochrome logo strip.</li>
+    <li>An <code>og-card.html</code> link-preview generator, content-hash cache-busting, reduced-motion-safe animation, and a mobile nav.</li>
+    <li>No personal content or images — placeholder copy and placeholder art only. Bring your own.</li>
+  </ul>
+
+  <h2>The fill mechanism (the actual point)</h2>
+  <p>
+    Instead of hunting through a dozen templates, all the editable copy lives in one commented data
+    file. Ship with that a prompt — <code>PROMPT.md</code> — that turns Claude, ChatGPT, or an
+    in-editor agent into an intake interviewer: it asks you short rounds of questions, drafts tight
+    copy from your rough answers, refuses to invent facts, and writes the result straight into the
+    data file. The template stops being something you fill in and becomes something an agent fills in
+    <em>for</em> you.
+  </p>
+
+  <h2>The design decisions — and the tradeoffs</h2>
+  <p>These are the calls worth defending, because each had a real alternative I rejected:</p>
+  <ul class="case-steps">
+    <li><strong>Flat editorial, not glassy SaaS.</strong> Sans type, one restrained accent, hairline dividers over boxes. The rejected path — a full material/glass restyle — dilutes a builder's site into a generic landing page.</li>
+    <li><strong>Squircle corners as progressive enhancement.</strong> <code>corner-shape: superellipse(2)</code> gives true Apple continuous-curvature corners in Chromium and degrades to normal rounded corners elsewhere. I rejected the JS polyfill: it masks the element, which clips the card shadows the design depends on.</li>
+    <li><strong>Content-hash cache-busting.</strong> A build step hashes the CSS, the OG image, and the logos and stamps the hash onto their URLs. Changed files refetch instantly; unchanged ones cache hard. This is why nobody ever has to hard-refresh — and it's the fix for a real bug where a new CSS filter hit stale cached logos.</li>
+    <li><strong>Monochrome logos via CSS filter, not vectorized art.</strong> Forcing logos to one gray keeps the row cohesive on the dark background — and avoids re-drawing each mark, which is lossy and doesn't scale.</li>
+    <li><strong>Motion that never strands content.</strong> Scroll-reveal only hides-then-shows when JavaScript is present <em>and</em> reduced motion is off. No-JS and reduced-motion visitors get everything immediately — the common failure mode is content stuck invisible, and this design can't hit it.</li>
+  </ul>
+
+  <h2>Get it</h2>
+  <p>Two ways in — clone the template repo on GitHub, or grab the zip:</p>
+  <p class="hero-actions">
+    <a class="btn" href="https://github.com/rcbowlin1/personal-site-template">Use the template on GitHub →</a>
+    <a class="btn btn-ghost" href="/personal-site-template.zip" download>Download the zip ↓</a>
+  </p>
+  <p>MIT licensed — the code is yours to use and change. The words and images you add stay yours; nothing personal of mine ships in the template.</p>
+
+  <p class="back">Curious how I think about the AI plumbing underneath this? Read <a href="/posts/you-down-with-mcp/">You down with MCP?</a> or <a href="/work/build-your-own-mcp/">Build your own MCP</a>.</p>
+</section>
