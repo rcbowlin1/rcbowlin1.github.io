@@ -15,6 +15,7 @@ One list. `[Thoughts]` = a Thoughts post · `[Work]` = a Work case-study page.
 - [Thoughts] You down with MCP? Yeah, you know me!
 - [Thoughts] You have a non-determinism budget
 - [Thoughts] Human-in-the-loop is a design smell
+- [Thoughts] The need for… speed? — AI is great at speed. Tie to Bezos on speed in business + Amazon's one-way vs. two-way door decisions. Where does leveraging AI for speed win, and where does it produce "AI slop"? Is there a mental model for deciding? (verify the exact phrase the Spotify CEO coined when drafting; likely maps: two-way door → let AI go fast; one-way door → slow down, verify)
 - [Thoughts] The deletion metric
 - [Thoughts] Can agents run an entire small business? News at 6.
 - [Thoughts] The doc is the thinking, not the memo
