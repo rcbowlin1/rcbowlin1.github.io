@@ -14,7 +14,25 @@ function hash(path) {
   }
 }
 
+// One hash across all logo files: changes whenever any logo's bytes change,
+// so swapping a logo (same filename) can't serve stale cached bytes.
+function hashMany(paths) {
+  const h = crypto.createHash("sha256");
+  paths.forEach(function (p) {
+    try { h.update(fs.readFileSync(p)); } catch (err) { /* skip missing */ }
+  });
+  return h.digest("hex").slice(0, 8);
+}
+
 module.exports = {
   cssHash: hash("src/css/styles.css"),
   ogHash: hash("src/img/og-card.png"),
+  logosHash: hashMany([
+    "src/img/logos/henkel.svg",
+    "src/img/logos/american-university.png",
+    "src/img/logos/advantage.png",
+    "src/img/logos/amazon.png",
+    "src/img/logos/heineken.png",
+    "src/img/logos/arkansas-tech.png",
+  ]),
 };
