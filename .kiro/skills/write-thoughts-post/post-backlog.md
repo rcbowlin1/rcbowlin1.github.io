@@ -23,7 +23,7 @@ One list. `[Thoughts]` = a Thoughts post · `[Work]` = a Work case-study page.
 - [Thoughts] Prioritization is subtraction
 - [Thoughts] PM + AI: the fundamentals still win
 - [Thoughts] Power Purchase Agreements… where'd they go?
-- [Thoughts] Hot Springs, Arkansas: mobsters, bathhouses & a lot of lake (Play)
+- ✅ [Thoughts] Between the screens: Hot Springs, Arkansas (Play)
 - [Thoughts] Why is Scottsdale so known for golf? (Play)
 - [Thoughts] Fun things to do in the Bay Area (Play)
 - [Thoughts] The bond market… who cares? (who's asking?) (Play)
