@@ -315,7 +315,7 @@ h2 {
 }
 .logo-btn:hover img { opacity: 0.95; }
 /* Henkel's oval reads small next to the wordmarks — nudge it ~10%. */
-.logo-btn[data-company="henkel"] img { height: 37px; max-width: 176px; }
+.logo-btn[data-company="henkel"] img { height: 41px; max-width: 194px; }
 
 /* Mobile: static 2-column grid of each logo once (no scroll). Desktop keeps the marquee. */
 @media (max-width: 600px) {
@@ -337,7 +337,7 @@ h2 {
   .logo-btn { min-width: 0; width: 100%; box-sizing: border-box; padding: 10px; }
   .logo-btn img { height: 26px; max-width: 120px; }
   /* Henkel's oval reads small — nudge it ~10% on mobile only. */
-  .logo-btn[data-company="henkel"] img { height: 29px; max-width: 132px; }
+  .logo-btn[data-company="henkel"] img { height: 32px; max-width: 145px; }
 }
 
 /* Company modal (native <dialog>) */
