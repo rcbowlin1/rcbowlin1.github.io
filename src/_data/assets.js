@@ -35,4 +35,10 @@ module.exports = {
     "src/img/logos/heineken.png",
     "src/img/logos/arkansas-tech.png",
   ]),
+  aboutHash: hashMany([
+    "src/img/ryan-bowlin.jpg",
+    "src/img/family.jpg",
+    "src/img/hobbies.jpg",
+    "src/img/spheres.jpg",
+  ]),
 };
