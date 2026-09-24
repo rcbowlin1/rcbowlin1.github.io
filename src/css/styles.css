@@ -310,10 +310,10 @@ h2 {
   object-fit: contain;
   display: block;
   filter: brightness(0) invert(1);
-  opacity: 0.6;
-  transition: opacity 0.15s ease;
+  opacity: 0.42;
+  transition: opacity 0.2s ease;
 }
-.logo-btn:hover img { opacity: 0.95; }
+.logo-btn:hover img { opacity: 1; }
 /* Henkel's oval reads small next to the wordmarks — nudge it ~10%. */
 .logo-btn[data-company="henkel"] img { height: 41px; max-width: 194px; }
 
