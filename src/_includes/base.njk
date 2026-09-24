@@ -128,7 +128,7 @@
           if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
         });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-      document.querySelectorAll('main > section').forEach(function (sec) {
+      document.querySelectorAll('main > section, main > .about-row, main > article').forEach(function (sec) {
         var items = sec.querySelectorAll('.post-index--cards > li, .proof-list > li');
         if (items.length) {
           // Container just fades; its items rise in, staggered (no transform compounding).

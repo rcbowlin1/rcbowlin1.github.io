@@ -292,19 +292,28 @@ h2 {
 .marquee:hover .logo-row { animation-play-state: paused; }
 @keyframes logoscroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .logo-btn {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 22px 30px;
-  min-width: 210px;
+  background: transparent;
+  border: none;
+  padding: 0 10px;
+  min-width: 0;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.12s ease, box-shadow 0.15s ease;
 }
-.logo-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
-.logo-btn img { height: 44px; width: auto; max-width: 230px; object-fit: contain; display: block; }
+/* Monochrome marks on the dark bg (no white card). Uniform gray at rest;
+   height + max-width + contain optically balances the wide logos (e.g. AU). */
+.logo-btn img {
+  height: 34px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+.logo-btn:hover img { opacity: 0.95; }
 
 /* Mobile: static 2-column grid of each logo once (no scroll). Desktop keeps the marquee. */
 @media (max-width: 600px) {
@@ -323,8 +332,8 @@ h2 {
   }
   .logo-row--left li[aria-hidden="true"] { display: none; }
   .logo-row--left > li { min-width: 0; }
-  .logo-btn { min-width: 0; width: 100%; box-sizing: border-box; padding: 12px; }
-  .logo-btn img { height: 28px; max-width: 100%; }
+  .logo-btn { min-width: 0; width: 100%; box-sizing: border-box; padding: 10px; }
+  .logo-btn img { height: 26px; max-width: 120px; }
 }
 
 /* Company modal (native <dialog>) */
