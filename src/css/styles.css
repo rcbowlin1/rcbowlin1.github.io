@@ -183,6 +183,9 @@ h2 {
 .codeblock { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; overflow-x: auto; font-family: var(--mono); font-size: 0.82rem; line-height: 1.55; color: #d7d7da; margin: 0 0 14px; }
 .codeblock code { font-family: inherit; white-space: pre; }
 .case-steps li { line-height: 1.5; }
+.diagram { margin: 30px 0; }
+.diagram img { width: 100%; height: auto; display: block; }
+.diagram figcaption { color: var(--muted); font-size: 0.9rem; line-height: 1.5; margin-top: 12px; max-width: 68ch; }
 .thoughts-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 26px; }
 .filter-group { display: inline-flex; gap: 6px; }
 .filter-btn, .sort-btn {

@@ -47,6 +47,11 @@ description: "A masked look at an AI pipeline for product carbon-footprint fact 
     compliance-sensitive domain, that boundary isn't optional.
   </p>
 
+  <figure class="diagram">
+    <img src="/img/petiscos-pipeline.svg" alt="Pipeline diagram. Left to right: Ingest assured LCA data, and Match to approved claims, are deterministic steps. Assemble with agents is the one generative step, drawn with a dashed border. Validate is a deterministic gate that loops back to Assemble on failure. Publish sends the design to Figma via MCP." />
+    <figcaption>The shape of it: a deterministic core with a single generative step at the edge. Agents shape the form; a deterministic gate keeps every number and claim tied back to assured data, and sends work back to be corrected when it doesn't.</figcaption>
+  </figure>
+
   <h2>What it changed</h2>
   <p>
     Producing a fact sheet went from days of manual design to a largely automated run, and the

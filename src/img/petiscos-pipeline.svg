@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 400" role="img" aria-labelledby="pipe-title">
+  <title id="pipe-title">Fact-sheet pipeline: a deterministic core with a single generative step at the edge, and a deterministic validation gate that loops back on failure before publishing to Figma via MCP.</title>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #ededec; }
+    .kick { font-size: 12px; letter-spacing: 0.14em; font-weight: 600; }
+    .title { font-size: 18px; font-weight: 700; }
+    .sub { font-size: 13px; fill: #8b8b93; }
+    .legend { font-size: 14px; fill: #8b8b93; }
+    .loop { font-size: 12px; fill: #8b8b93; }
+    .det { fill: #2f9e74; }
+    .gen { fill: #f0c060; }
+    .box { fill: #141417; }
+    .det-box { stroke: #2f9e74; stroke-width: 1.5; }
+    .gen-box { stroke: #f0c060; stroke-width: 1.5; stroke-dasharray: 6 5; }
+  </style>
+
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#8b8b93" />
+    </marker>
+    <marker id="arrow-amber" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#f0c060" />
+    </marker>
+  </defs>
+
+  <!-- legend -->
+  <rect x="20" y="12" width="16" height="16" rx="4" class="box det-box" />
+  <text class="legend" x="44" y="25">Deterministic</text>
+  <rect x="176" y="12" width="16" height="16" rx="4" class="box gen-box" />
+  <text class="legend" x="200" y="25">Generative (guardrailed)</text>
+
+  <!-- forward arrows -->
+  <line x1="198" y1="150" x2="224" y2="150" stroke="#8b8b93" stroke-width="1.5" marker-end="url(#arrow)" />
+  <line x1="404" y1="150" x2="430" y2="150" stroke="#8b8b93" stroke-width="1.5" marker-end="url(#arrow)" />
+  <line x1="610" y1="150" x2="636" y2="150" stroke="#8b8b93" stroke-width="1.5" marker-end="url(#arrow)" />
+  <line x1="816" y1="150" x2="842" y2="150" stroke="#8b8b93" stroke-width="1.5" marker-end="url(#arrow)" />
+
+  <!-- boxes -->
+  <g>
+    <rect x="20" y="90" width="176" height="120" rx="14" class="box det-box" />
+    <text class="kick det" x="108" y="120" text-anchor="middle">INGEST</text>
+    <text class="title" x="108" y="150" text-anchor="middle">Assured LCA data</text>
+    <text class="sub" x="108" y="176" text-anchor="middle">source of truth</text>
+  </g>
+  <g>
+    <rect x="226" y="90" width="176" height="120" rx="14" class="box det-box" />
+    <text class="kick det" x="314" y="120" text-anchor="middle">MATCH</text>
+    <text class="title" x="314" y="150" text-anchor="middle">Approved claims</text>
+    <text class="sub" x="314" y="176" text-anchor="middle">never invented</text>
+  </g>
+  <g>
+    <rect x="432" y="90" width="176" height="120" rx="14" class="box gen-box" />
+    <text class="kick gen" x="520" y="120" text-anchor="middle">ASSEMBLE</text>
+    <text class="title" x="520" y="150" text-anchor="middle">Agents</text>
+    <text class="sub" x="520" y="176" text-anchor="middle">structure &amp; layout</text>
+  </g>
+  <g>
+    <rect x="638" y="90" width="176" height="120" rx="14" class="box det-box" />
+    <text class="kick det" x="726" y="120" text-anchor="middle">VALIDATE</text>
+    <text class="title" x="726" y="150" text-anchor="middle">Deterministic gate</text>
+    <text class="sub" x="726" y="176" text-anchor="middle">ties back to data</text>
+  </g>
+  <g>
+    <rect x="844" y="90" width="176" height="120" rx="14" class="box det-box" />
+    <text class="kick det" x="932" y="120" text-anchor="middle">PUBLISH</text>
+    <text class="title" x="932" y="150" text-anchor="middle">Figma via MCP</text>
+    <text class="sub" x="932" y="176" text-anchor="middle">design generated</text>
+  </g>
+
+  <!-- failure loop: validate back to assemble -->
+  <path d="M726,210 L726,285 L520,285 L520,212" fill="none" stroke="#f0c060" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arrow-amber)" />
+  <text class="loop" x="623" y="278" text-anchor="middle">on fail — correct &amp; retry</text>
+</svg>
