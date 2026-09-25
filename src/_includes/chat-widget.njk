@@ -1,0 +1,119 @@
+<!-- Curated "ask my work" widget. Client-side only — no backend, no LLM, no API key.
+     A hand-curated Q&A set with graceful "still learning" fallback. Honest by design. -->
+<button class="chat-fab" id="chat-fab" type="button" aria-label="Ask about Ryan" aria-expanded="false" aria-controls="chat-panel">
+  <img src="/img/golden-retriever-tan.png?v={{ assets.chatHash }}" alt="" />
+  <span class="chat-fab-dot" aria-hidden="true"></span>
+</button>
+
+<div class="chat-panel" id="chat-panel" role="dialog" aria-label="Ask about Ryan" hidden>
+  <div class="chat-head">
+    <img class="chat-head-avatar" src="/img/golden-retriever-tan.png?v={{ assets.chatHash }}" alt="" />
+    <div class="chat-head-text">
+      <strong>Biscuit</strong>
+      <span>still adding knowledge to the site</span>
+    </div>
+    <button class="chat-close" id="chat-close" type="button" aria-label="Close">&times;</button>
+  </div>
+  <div class="chat-log" id="chat-log" aria-live="polite"></div>
+  <div class="chat-chips" id="chat-chips"></div>
+  <form class="chat-input" id="chat-form">
+    <input id="chat-text" type="text" autocomplete="off" placeholder="Ask about Ryan…" aria-label="Ask about Ryan" />
+    <button type="submit" aria-label="Send">Ask</button>
+  </form>
+</div>
+
+<script>
+  (function () {
+    var DOG = "Biscuit";
+    var QA = [
+      { id: "role", q: "What does Ryan do?",
+        keywords: ["do", "role", "job", "who is", "about him", "title", "pm", "product manager", "career"],
+        a: "Senior Product Manager in applied AI. Twelve-plus years turning ambiguous, high-stakes problems into things that ship — from Fortune 500 retail buyers to Amazon leadership. Now he designs, builds, and operates the AI itself." },
+      { id: "determinism", q: "Agents vs. code — his take?",
+        keywords: ["determin", "agent", "architecture", "autonomous", "philosophy", "vs code", "orchestrat", "when to use ai"],
+        a: "His short version: agents are designed, not prompted. Use deterministic code where the path is knowable, and hand a step to an agent only when the decision space is genuinely open. He wrote it up in <a href=\"/posts/agent-vs-code/\">Agent vs. Code</a> and built a pipeline around it — deterministic core, humans on the judgment calls." },
+      { id: "shipped", q: "What has he shipped?",
+        keywords: ["ship", "built", "build", "product", "project", "worked on", "launch", "experience", "made"],
+        a: "Public ones: Amazon \"Build It\" (shipped three products), Halo Rise, Echo custom silicon, and a Climate Pledge Fund investment. On the build side: a working MCP server, an AI pipeline for sustainability fact sheets, and this site's open-source template. The <a href=\"/work/\">Work page</a> has the details." },
+      { id: "writing", q: "What has he written?",
+        keywords: ["written", "write", "writing", "post", "blog", "thought", "article", "read"],
+        a: "He writes about AI, work, and the occasional lake trip — like <a href=\"/posts/you-down-with-mcp/\">You down with MCP?</a> and <a href=\"/posts/agent-vs-code/\">Agent vs. Code</a>. They're all on the <a href=\"/thoughts/\">Thoughts page</a>." },
+      { id: "contact", q: "How do I reach him?",
+        keywords: ["reach", "contact", "email", "connect", "get in touch", "hire", "talk", "message", "linkedin", "github"],
+        a: "Email's easiest — <a href=\"mailto:rcbowlin1@gmail.com\">rcbowlin1@gmail.com</a> — or find him on LinkedIn and GitHub. The <a href=\"/connect/\">Connect page</a> lays out a few ways in, whether you want to talk work, kick around an idea, or tell him he's got a bad take." },
+      { id: "meta", q: "Are you a real AI?",
+        keywords: ["real ai", "are you", "how do you work", "rag", "model", "chatbot", "fake", "curated", "llm"],
+        a: "Straight answer: I'm a curated helper, not a live language model. I know a handful of things about Ryan well, and I'll own it when I don't know something. He's building toward a smarter version as the site fills up — he'd rather ship something honest than something that bluffs." }
+    ];
+    var GREETING = "Hi — I'm " + DOG + ". Ryan's still teaching me about the site, so I know a handful of things well (and I'll tell you when I don't). Ask me one:";
+    var FALLBACK = "That one I'm still learning — Ryan's still adding to my brain. Try one of these, or reach him on the <a href=\"/connect/\">Connect page</a>.";
+
+    var fab = document.getElementById("chat-fab");
+    var panel = document.getElementById("chat-panel");
+    var log = document.getElementById("chat-log");
+    var chips = document.getElementById("chat-chips");
+    var form = document.getElementById("chat-form");
+    var input = document.getElementById("chat-text");
+    var closeBtn = document.getElementById("chat-close");
+    if (!fab || !panel) return;
+    var started = false;
+
+    function bubble(html, who) {
+      var d = document.createElement("div");
+      d.className = "chat-msg " + (who === "user" ? "chat-msg--user" : "chat-msg--bot");
+      if (who === "user") { d.textContent = html; } else { d.innerHTML = html; }
+      log.appendChild(d);
+      log.scrollTop = log.scrollHeight;
+    }
+    function renderChips() {
+      chips.innerHTML = "";
+      QA.forEach(function (item) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "chat-chip";
+        b.textContent = item.q;
+        b.addEventListener("click", function () { answerById(item.id); });
+        chips.appendChild(b);
+      });
+    }
+    function answerById(id) {
+      var item = QA.filter(function (x) { return x.id === id; })[0];
+      if (!item) return;
+      bubble(item.q, "user");
+      setTimeout(function () { bubble(item.a, "bot"); }, 180);
+    }
+    function answerText(text) {
+      var t = text.toLowerCase();
+      var best = null, bestScore = 0;
+      QA.forEach(function (item) {
+        var score = 0;
+        item.keywords.forEach(function (k) { if (t.indexOf(k) !== -1) score++; });
+        if (score > bestScore) { bestScore = score; best = item; }
+      });
+      bubble(text, "user");
+      setTimeout(function () { bubble(bestScore > 0 ? best.a : FALLBACK, "bot"); }, 180);
+    }
+    function openPanel() {
+      panel.removeAttribute("hidden");
+      fab.setAttribute("aria-expanded", "true");
+      fab.classList.add("is-open");
+      if (!started) { started = true; bubble(GREETING, "bot"); renderChips(); }
+      setTimeout(function () { input.focus(); }, 50);
+    }
+    function closePanel() {
+      panel.setAttribute("hidden", "");
+      fab.setAttribute("aria-expanded", "false");
+      fab.classList.remove("is-open");
+    }
+    fab.addEventListener("click", function () { panel.hasAttribute("hidden") ? openPanel() : closePanel(); });
+    closeBtn.addEventListener("click", closePanel);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hasAttribute("hidden")) closePanel(); });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = input.value.trim();
+      if (!v) return;
+      input.value = "";
+      answerText(v);
+    });
+  })();
+</script>

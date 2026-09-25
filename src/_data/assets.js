@@ -41,4 +41,5 @@ module.exports = {
     "src/img/hobbies.jpg",
     "src/img/spheres.jpg",
   ]),
+  chatHash: hash("src/img/golden-retriever-tan.png"),
 };
