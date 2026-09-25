@@ -3,25 +3,21 @@ title: "The chatbot I didn't build (and the dog I shipped instead)"
 date: 2026-09-25
 category: Building
 track: Work
-description: "Why I shipped a small, honest, curated assistant instead of a RAG chatbot over a thin corpus — data-readiness as a gate, graceful degradation, and knowing when not to build the fancy version."
+description: "This site is my sandbox for learning and deploying AI. Here's how a debate with my AI about a RAG tool turned into a curated FAQ helper — and why it's a golden retriever named Sam."
 ---
 
-There's a golden retriever in the corner of this site now. His name is Sam, and if you ask him about me he'll answer a handful of questions pretty well. He'll also, on purpose, admit when he doesn't know something.
+The whole point of this site is to be a sandbox — somewhere I actually learn and deploy AI instead of just reading about it. And the way I usually get there is by arguing with my AI. I float an idea, it pushes back, I push back, and somewhere in the back-and-forth the real design shakes out.
 
-That second part is the whole point.
+Here's a recent one.
 
-The obvious move for someone who builds AI is to put an "ask my work" bot on the site — point a model at everything I've written, wire up retrieval, let people ask anything. It's a good demo. I wanted it.
+I wanted an "ask about me" tool on the site — something a visitor could actually use to get a straight answer without digging through every page. The obvious build is a RAG system: point a model at everything I've written, let it retrieve the relevant bits, and have it answer in plain language. Genuinely cool, and exactly the kind of thing I want to be building.
 
-Here's why I didn't build it: I've written a handful of posts. A retrieval bot over a thin corpus spends most of its time saying "I don't have information on that." And a chatbot that can't answer, sitting on the site of someone whose pitch is *AI judgment*, isn't a neutral miss. It becomes the counter-argument. The demo undercuts the thing it's supposed to prove.
+Then the debate started poking holes, fast. One: I've written a handful of posts so far — there isn't much to retrieve yet, so a model would spend most of its time saying "I don't know." Two: a live model answering every passing visitor is real API spend, month after month, for something that today wouldn't have much to say. Paying to look thin isn't a great trade.
 
-So I shipped the honest version instead. Sam is a curated set of answers to the questions people actually ask — what I do, what I've shipped, my take on agents, how to reach me — and a graceful "I'm still learning that one" for everything else. No model, no backend, no API key to run up a bill. It does a few things well and tells you plainly where it stops.
+So we talked it through and landed somewhere I like a lot better for right now. Skip the live model. Write the answers myself — the questions people actually ask: what I do, what I've built, my take on agents, how to reach me — and let the tool match your question to the closest one and hand it over. Anything it doesn't have, it says so and points you to me. The whole thing runs in your browser. No server, no model, no bill. It does a few things well and is honest about the rest.
 
-This is the same call I make in real systems, just smaller. Use the simplest thing that solves the problem. Add the complicated, autonomous version only when it earns its keep — and "it would be a cool demo" isn't it earning its keep. Data-readiness is a gate you're allowed to fail. Right now the corpus isn't deep enough to ground a good retrieval bot, so building one would mean shipping something that bluffs. I'd rather ship something that's honest about its edges.
+That's the same instinct I bring to real systems: use the simplest thing that solves the problem, and save the heavy, expensive version for when it's actually earned. Right now, it hasn't. When the site fills up and there's enough to retrieve, this little helper graduates into the real thing.
 
-The other half of the point is graceful degradation. The failure mode of a confident bot is that it makes something up. The failure mode of Sam is that he says "ask Ryan." One of those costs me credibility; the other doesn't. When you can't guarantee the fancy version won't embarrass you, the boring version that fails safe is the better product.
+Which left me with a feature whose whole job is to sniff out the right answer from what's on hand. Say "retrieval" and "sniff out the answer" enough times and the mascot names itself. What retrieves better than a retriever? I happen to be partial to one in particular — a golden named Sam.
 
-None of this is permanent. Sam is the version that's right for the amount I've written *today*. As the site fills up, he graduates — same corner, same dog, a real retrieval model underneath, and hopefully fewer "ask Ryan"s. I'm building toward it. I'm just not pretending I'm already there.
-
-Honesty turned out to be the feature. A dog that knows its limits beats a bot that fakes it — and if you're going to be limited, you might as well be a golden retriever about it.
-
-Go poke him, bottom right. He'll tell you what he knows.
+So that's who's waiting in the corner. Say hi. He knows what he knows, he'll admit what he doesn't, and one day he'll be a lot smarter. Good boy.
