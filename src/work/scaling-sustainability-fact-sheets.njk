@@ -28,28 +28,29 @@ description: "A masked look at an AI pipeline for product carbon-footprint fact 
   <p>
     Most of the work was repeatable: the same assured lifecycle data flowing into the same
     document structure, over and over. That's a job for deterministic code, not human hours —
-    and not, on its own, for an autonomous agent. The genuine ambiguity lived only at the edges:
-    interpreting messy inputs and assembling design. So I designed a pipeline with a
-    <strong>deterministic core</strong> and pushed the fuzzy parts to the boundary.
+    and not, on its own, for an autonomous agent. The genuine judgment lived at the edges —
+    interpreting the inputs, the imagery, and the final compliance call. So I designed a pipeline
+    with a <strong>deterministic core</strong> and kept those judgment calls with people.
   </p>
 
   <h2>What I built</h2>
   <ul class="case-steps">
     <li><strong>Ingest</strong> third-party-assured LCA results into the tool as the single source of truth.</li>
     <li><strong>Match</strong> that data to pre-cleared, approved claim language — deterministically, so the substance is never invented.</li>
-    <li><strong>Run agents</strong> at the edges to structure and assemble the content into the document layout.</li>
+    <li><strong>Assemble deterministically</strong> — populate the approved content into the layout by ID, not by model discretion.</li>
     <li><strong>Push to Figma via MCP</strong> to generate the design elements programmatically, instead of rebuilding each sheet by hand in external design software.</li>
   </ul>
   <p>
-    One rule held throughout: the agents could shape the <em>form</em> — layout, assembly,
+    One rule held throughout: automation could shape the <em>form</em> — layout, assembly,
     formatting — but never the <em>substance</em>. Every published number and claim traces back
-    to the assured data and pre-approved language; validation stayed deterministic. In a
+    to the assured data and pre-approved language, validation stayed deterministic, and the
+    judgment calls — the data, the imagery, the final compliance read — stayed with people. In a
     compliance-sensitive domain, that boundary isn't optional.
   </p>
 
   <figure class="diagram">
-    <img src="/img/petiscos-pipeline.svg" alt="Pipeline diagram. Left to right: Ingest assured LCA data, and Match to approved claims, are deterministic steps. Assemble with agents is the one generative step, drawn with a dashed border. Validate is a deterministic gate that loops back to Assemble on failure. Publish sends the design to Figma via MCP." />
-    <figcaption>The shape of it: a deterministic core with a single generative step at the edge. Agents shape the form; a deterministic gate keeps every number and claim tied back to assured data, and sends work back to be corrected when it doesn't.</figcaption>
+    <img src="/img/petiscos-pipeline.svg" alt="Pipeline diagram. The automated path is deterministic: ingest assured LCA data and approved claims, fill and localize the numbers, pass a fail-closed QA gate, then render into Figma by ID and export PDFs. The QA gate re-runs on failure and, after three attempts, escalates to a human and blocks publish. Humans own the judgment calls: providing the data, placing per-locale images, and final review and publish." />
+    <figcaption>The shape of it: a deterministic pipeline with humans on the judgment calls. Code fills approved numbers and wording, and a fail-closed gate keeps everything tied back to assured data — escalating to a human after three tries, never shipping a failure. People own the data, the imagery, and the final publish. No autonomous agent, on purpose.</figcaption>
   </figure>
 
   <h2>What it changed</h2>
