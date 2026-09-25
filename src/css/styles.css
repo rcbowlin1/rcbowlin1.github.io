@@ -536,14 +536,17 @@ html.reveal-on .reveal-fade.is-visible { opacity: 1; }
   border-radius: 50%;
   border: 1.5px solid var(--accent);
   background: var(--surface);
-  overflow: visible;
+  overflow: hidden;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   transition: transform 0.14s ease, box-shadow 0.15s ease;
 }
 .chat-fab img {
-  width: 100%;
-  height: 100%;
+  width: 78%;
+  height: 78%;
   object-fit: cover;
   border-radius: 50%;
   display: block;
