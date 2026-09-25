@@ -550,16 +550,6 @@ html.reveal-on .reveal-fade.is-visible { opacity: 1; }
 }
 .chat-fab:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55); }
 .chat-fab:active { transform: scale(0.96); }
-.chat-fab-dot {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg);
-}
 
 .chat-panel[hidden] { display: none; }
 .chat-panel {
