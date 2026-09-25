@@ -24,6 +24,7 @@ One list. `[Thoughts]` = a Thoughts post · `[Work]` = a Work case-study page.
 - [Thoughts] PM + AI: the fundamentals still win
 - [Thoughts] Power Purchase Agreements… where'd they go?
 - ✅ [Thoughts] Between the screens: Hot Springs, Arkansas (Play)
+- ✅ [Thoughts] The chatbot I didn't build (and the dog I shipped instead) — companion to the Biscuit widget
 - [Thoughts] Why is Scottsdale so known for golf? (Play)
 - [Thoughts] Fun things to do in the Bay Area (Play)
 - [Thoughts] The bond market… who cares? (who's asking?) (Play)
