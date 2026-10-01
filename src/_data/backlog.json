@@ -1,7 +1,6 @@
 [
   { "title": "Does my AI like me?", "slug": "does-my-ai-like-me", "track": "Work" },
   { "title": "Thinking in… Graphs?", "slug": "graph-engineering", "track": "Work" },
-  { "title": "Check with finance", "slug": "non-determinism-budget", "track": "Work" },
   { "title": "Get the human out of the loop (my AI came up with this one…)", "slug": "human-in-the-loop-design-smell", "track": "Work" },
   { "title": "The need for… speed?", "slug": "need-for-speed", "track": "Work" },
   { "title": "Between the screens: Scottsdale, AZ", "slug": "scottsdale-golf", "track": "Play" },
