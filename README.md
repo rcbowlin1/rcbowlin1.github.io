@@ -1,6 +1,6 @@
 # rcbowlin1.github.io
 
-Personal site for Ryan Bowlin — Senior Product Manager: decisions leaders bet on, and AI that gets it right.
+Personal site for Ryan Bowlin — Senior Product Manager shaping decisions leaders bet on and building AI that gets it right.
 
 Built with [Eleventy](https://www.11ty.dev/) (static site generator). Deployed to GitHub Pages
 via GitHub Actions on every push to `main`.
