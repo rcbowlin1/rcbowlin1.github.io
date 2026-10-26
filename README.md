@@ -25,6 +25,7 @@ npm run build      # build to _site/
 
    Write the post in Markdown here.
    ```
+   Add `featured: true` to the front matter to show it in the homepage's "My Thinking" section (keep it to two).
 2. `git commit` and `git push` to `main`.
 3. The GitHub Action rebuilds and deploys. Live in about a minute — no other steps.
 

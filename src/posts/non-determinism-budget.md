@@ -3,6 +3,7 @@ title: "Check with finance"
 date: 2026-10-01
 category: Thinking
 track: Work
+featured: true
 description: "I hit my AI token limit at work and started wondering who's actually paying for all of it, and how a PM should think about the cost of the intelligence their team runs on."
 ---
 
