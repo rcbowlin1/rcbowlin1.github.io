@@ -2,7 +2,7 @@
   "name": "rcbowlin1.github.io",
   "version": "1.0.0",
   "private": true,
-  "description": "Personal site for Ryan Bowlin — Senior Product Manager: decisions leaders bet on, and AI that gets it right.",
+  "description": "Personal site for Ryan Bowlin — Senior Product Manager shaping decisions leaders bet on and building AI that gets it right.",
   "scripts": {
     "build": "eleventy",
     "serve": "eleventy --serve"
