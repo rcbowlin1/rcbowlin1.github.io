@@ -3,6 +3,7 @@ title: "Agent vs. Code… who ya gonna call?"
 date: 2026-09-22
 category: Thinking
 track: Work
+featured: true
 description: "When to reach for an AI agent and when to just write the code — and why the deciding factor isn't the one everyone argues about."
 ---
 
