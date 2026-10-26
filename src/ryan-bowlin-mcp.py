@@ -43,7 +43,7 @@ def roll_dice(sides: int = 6, count: int = 1) -> str:
 def about_ryan() -> str:
     """A short bio for Ryan Bowlin and where to find his work."""
     return (
-        "Ryan Bowlin — Senior Product Manager who builds and ships production AI. "
+        "Ryan Bowlin — Senior Product Manager: decisions leaders bet on, and AI that gets it right. "
         "Writes at https://rcbowlin1.github.io. "
         "This is the starter MCP server from his post 'You down with MCP?'."
     )
