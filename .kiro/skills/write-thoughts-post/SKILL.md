@@ -1,7 +1,7 @@
 ---
 name: write-thoughts-post
 description: >-
-  Write and publish a post in the "Thoughts" section of rcbowlin1.github.io
+  Write and publish a post in the "Thoughts" section of ryancbowlin.com
   (Ryan Bowlin's personal site). Use when Ryan wants to draft, shape, or ship a
   new Thoughts entry. Covers the front-matter schema (title, date, category,
   track, description), the house voice and structure, the confidentiality
@@ -73,7 +73,7 @@ The plumbing is already built. Publishing a post is: **write the file → previe
    curl -s http://localhost:8080/thoughts/ | grep -Eo 'href="/posts/[^"]*"|post-meta">[^<]*'
    ```
    Confirm the title, the description (feeds the preview card), and that the date reads correctly.
-6. **Ship.** `git add -A && git commit -q -m "Add Thoughts post: <title>" && git push`. GitHub Actions builds in ~1 min. Optionally confirm live: `curl -s https://rcbowlin1.github.io/posts/<slug>/ | grep -Eo '<title>[^<]*</title>'`.
+6. **Ship.** `git add -A && git commit -q -m "Add Thoughts post: <title>" && git push`. GitHub Actions builds in ~1 min. Optionally confirm live: `curl -s https://ryancbowlin.com/posts/<slug>/ | grep -Eo '<title>[^<]*</title>'`.
 
 ## 6. Worked example
 

@@ -2,7 +2,7 @@
 ryan-bowlin-mcp — a tiny Model Context Protocol (MCP) server.
 
 Companion to the post "You down with MCP?"
-https://rcbowlin1.github.io/posts/you-down-with-mcp/
+https://ryancbowlin.com/posts/you-down-with-mcp/
 
 The point of this file is how SHORT it is: a working MCP server in ~30 lines.
 The protocol is boring on purpose — that's the feature.
@@ -44,7 +44,7 @@ def about_ryan() -> str:
     """A short bio for Ryan Bowlin and where to find his work."""
     return (
         "Ryan Bowlin — Senior Product Manager shaping decisions leaders bet on and building AI that gets it right. "
-        "Writes at https://rcbowlin1.github.io. "
+        "Writes at https://ryancbowlin.com. "
         "This is the starter MCP server from his post 'You down with MCP?'."
     )
 
