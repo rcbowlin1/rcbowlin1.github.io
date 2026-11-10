@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 400" role="img" aria-labelledby="arch-title">
+  <title id="arch-title">Question-answering architecture. A plain-English question goes to a router that classifies intent. Look-up questions take the retrieval path: search the chunks by similarity and answer from the top matches, bounded by what retrieval surfaced. Count, total, and list questions take the code path: query the reconciled ledger across every row and return an exact answer with the rows it used. Both paths meet at a single answer. When the router can't place a question, it asks for a human instead of guessing.</title>
+  <style>
+    text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;fill:#ededec}
+    .kick{font-size:11px;letter-spacing:.14em;font-weight:600}
+    .title{font-size:16px;font-weight:700}
+    .sub{font-size:12px;fill:#8b8b93}
+    .legend{font-size:13px;fill:#8b8b93}
+    .edge{font-size:12px;fill:#8b8b93}
+    .det{fill:#2f9e74}.ret{fill:#cfe9dd}
+    .box{fill:#141417}
+    .det-box{stroke:#2f9e74;stroke-width:1.5}
+    .ret-box{stroke:#d7d7da;stroke-width:1.5}
+    .neu-box{stroke:#3a3a40;stroke-width:1.5}
+  </style>
+  <defs>
+    <marker id="g" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#2f9e74"/></marker>
+    <marker id="w" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#d7d7da"/></marker>
+    <marker id="n" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#8b8b93"/></marker>
+  </defs>
+
+  <!-- legend -->
+  <rect x="24" y="8" width="15" height="15" rx="4" class="box det-box"/>
+  <text class="legend" x="46" y="20">Code (deterministic, cites rows)</text>
+  <rect x="300" y="8" width="15" height="15" rx="4" class="box ret-box"/>
+  <text class="legend" x="322" y="20">Retrieval (bounded by what it pulls)</text>
+
+  <!-- input -->
+  <g>
+    <rect x="24" y="154" width="150" height="72" rx="14" class="box neu-box"/>
+    <text class="kick sub" x="99" y="182" text-anchor="middle">INPUT</text>
+    <text class="title" x="99" y="203" text-anchor="middle">Question</text>
+    <text class="sub" x="99" y="219" text-anchor="middle">plain English</text>
+  </g>
+  <line x1="174" y1="190" x2="202" y2="190" stroke="#8b8b93" stroke-width="1.5" marker-end="url(#n)"/>
+
+  <!-- router -->
+  <g>
+    <rect x="204" y="154" width="150" height="72" rx="14" class="box det-box"/>
+    <text class="kick det" x="279" y="182" text-anchor="middle">ROUTER</text>
+    <text class="title" x="279" y="203" text-anchor="middle">Classify intent</text>
+    <text class="sub" x="279" y="219" text-anchor="middle">look up vs. compute</text>
+  </g>
+
+  <!-- branch arrows -->
+  <path d="M354,176 L404,112" fill="none" stroke="#d7d7da" stroke-width="1.5" marker-end="url(#w)"/>
+  <path d="M354,204 L404,284" fill="none" stroke="#2f9e74" stroke-width="1.5" marker-end="url(#g)"/>
+  <text class="edge" x="420" y="170">look-up questions</text>
+  <text class="edge" x="420" y="250">count · total · list</text>
+
+  <!-- retrieval lane (top, y=74 h=66) -->
+  <g>
+    <rect x="406" y="74" width="180" height="66" rx="14" class="box ret-box"/>
+    <text class="kick ret" x="496" y="100" text-anchor="middle">RETRIEVAL</text>
+    <text class="title" x="496" y="120" text-anchor="middle">Search the chunks</text>
+  </g>
+  <line x1="586" y1="107" x2="622" y2="107" stroke="#d7d7da" stroke-width="1.5" marker-end="url(#w)"/>
+  <g>
+    <rect x="624" y="74" width="196" height="66" rx="14" class="box ret-box"/>
+    <text class="kick ret" x="722" y="100" text-anchor="middle">RETRIEVAL</text>
+    <text class="title" x="722" y="120" text-anchor="middle">Answer from top-k</text>
+  </g>
+
+  <!-- code lane (bottom, y=258 h=66) -->
+  <g>
+    <rect x="406" y="258" width="180" height="66" rx="14" class="box det-box"/>
+    <text class="kick det" x="496" y="284" text-anchor="middle">CODE</text>
+    <text class="title" x="496" y="304" text-anchor="middle">Query the ledger</text>
+  </g>
+  <line x1="586" y1="291" x2="622" y2="291" stroke="#2f9e74" stroke-width="1.5" marker-end="url(#g)"/>
+  <g>
+    <rect x="624" y="258" width="196" height="66" rx="14" class="box det-box"/>
+    <text class="kick det" x="722" y="284" text-anchor="middle">CODE</text>
+    <text class="title" x="722" y="304" text-anchor="middle">Exact answer + rows</text>
+  </g>
+
+  <!-- converge to answer -->
+  <path d="M820,107 L884,180" fill="none" stroke="#d7d7da" stroke-width="1.5" marker-end="url(#w)"/>
+  <path d="M820,291 L884,200" fill="none" stroke="#2f9e74" stroke-width="1.5" marker-end="url(#g)"/>
+  <g>
+    <rect x="886" y="154" width="170" height="72" rx="14" class="box neu-box"/>
+    <text class="kick sub" x="971" y="182" text-anchor="middle">OUTPUT</text>
+    <text class="title" x="971" y="203" text-anchor="middle">Answer</text>
+    <text class="sub" x="971" y="219" text-anchor="middle">with its receipts</text>
+  </g>
+</svg>
