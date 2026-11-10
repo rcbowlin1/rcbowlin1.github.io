@@ -1,0 +1,256 @@
+---
+layout: base.njk
+title: "Where RAG stops and Code starts"
+description: "A plain-English question box over messy AP data, and what it taught me about where retrieval earns its keep and where it quietly gets things wrong. With a live demo."
+---
+<section class="page-head">
+  <h1>Where RAG stops and Code starts</h1>
+  <p class="section-note">A plain-English question box over a pile of messy AP data, and what it taught me about where retrieval earns its keep and where it quietly gets things wrong.</p>
+</section>
+
+<section class="case-study">
+  <h2>The problem</h2>
+  <p>
+    Every team sitting on a pile of documents wants the same thing: ask a question in plain English
+    and get the answer. The default way to build that today is RAG, retrieval-augmented generation,
+    where a model searches your documents and answers from what it finds. I wanted to see where that
+    actually holds up, so I pointed it at the data from my
+    <a href="/posts/ai-evals/">invoice-reconciliation project</a>: a few dozen invoices, their
+    purchase orders, and a bank statement.
+  </p>
+
+  <h2>How I framed it</h2>
+  <p>
+    Some questions are a look-up. "What's the total on invoice 19296" lives on one document, and
+    retrieval is good at finding that document. Other questions are a computation. "How much did we
+    pay Marigold in total," or "how many invoices are still unpaid," need every matching row, counted
+    or added, with nothing missed. Those are two different jobs, so I built a router that reads the
+    question first and sends it the right way. Look-ups go to retrieval. Counts, totals, and lists go
+    to a query over the reconciled ledger, which is exact and shows the rows it used. Same instinct as
+    <a href="/posts/agent-vs-code/">an earlier post</a>: let the model do the messy reading, let code
+    own the numbers.
+  </p>
+
+  <h2>The build</h2>
+  <p>
+    A searchable chunk for every invoice and PO. A plain retriever. A router that classifies intent.
+    A set of structured queries over the ledger. And, because a claim like this is worth checking, a
+    16-question eval with known answers and a scorecard. The whole thing runs in your browser with no
+    server, which is why you can try it below.
+  </p>
+
+  <figure class="diagram">
+    <img src="/img/rag-architecture.svg" alt="Question-answering architecture. A plain-English question goes to a router that classifies intent. Look-up questions take the retrieval lane: search the chunks by similarity and answer from the top matches, bounded by what retrieval surfaced. Count, total, and list questions take the code lane: query the reconciled ledger across every row and return an exact answer with the rows it used. Both lanes meet at a single answer." />
+    <figcaption>The router is the whole trick. Look-up questions take the retrieval lane. Count, total, and list questions take the code lane, which reads every row and returns the rows it used. When the router can't place a question, it asks for a person instead of guessing.</figcaption>
+  </figure>
+
+  <h2>Try it</h2>
+  <p>
+    Ask your own question, or tap an example. The left panel is retrieval only. The right is routed to
+    code, verified against the ledger. They agree on look-ups and split on anything that needs the
+    whole ledger.
+  </p>
+
+  {% raw %}
+  <style>
+    #ragdemo{--rg-panel:#141417;--rg-line:#26262b;--rg-ink:#ededec;--rg-dim:#8b8b93;--rg-det:#2f9e74;
+      --rg-detsoft:#12352a;margin:18px 0 6px}
+    #ragdemo .rg-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:620px){#ragdemo .rg-cols{grid-template-columns:1fr}}
+    #ragdemo .rg-card{background:var(--rg-panel);border:1px solid var(--rg-line);border-radius:14px;
+      padding:16px 16px 14px;min-height:150px;color:var(--rg-ink)}
+    #ragdemo .rg-card.rg-det{border-color:var(--rg-det)}
+    #ragdemo .rg-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 4px;gap:8px}
+    #ragdemo .rg-kick{font-size:11px;letter-spacing:.14em;font-weight:700;text-transform:uppercase}
+    #ragdemo .rg-det .rg-kick{color:var(--rg-det)} #ragdemo .rg-rag .rg-kick{color:var(--rg-dim)}
+    #ragdemo .rg-bench{font-size:11px;color:var(--rg-dim);border:1px solid var(--rg-line);
+      border-radius:999px;padding:2px 8px;white-space:nowrap}
+    #ragdemo .rg-sub{font-size:12px;color:var(--rg-dim);margin:0 0 12px}
+    #ragdemo .rg-answer{font-size:26px;font-weight:700;letter-spacing:-.01em;margin:6px 0 2px;word-break:break-word}
+    #ragdemo .rg-answer.rg-list{font-size:17px;font-weight:600}
+    #ragdemo .rg-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;
+      border-radius:999px;padding:2px 9px;margin:8px 0 0}
+    #ragdemo .rg-ok{background:var(--rg-detsoft);color:#7fd7b4} #ragdemo .rg-no{background:#351a12;color:#f0a081}
+    #ragdemo .rg-meta{font-size:12px;color:var(--rg-dim);margin:12px 0 0;border-top:1px solid var(--rg-line);padding-top:10px}
+    #ragdemo .rg-meta b{color:#b9b9c0;font-weight:600}
+    #ragdemo .rg-srcf{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--rg-dim)}
+    #ragdemo .rg-note{font-size:13px;color:var(--rg-dim);margin:14px 2px 0}
+    #ragdemo .rg-ask{display:flex;gap:8px;margin:18px 0 12px}
+    #ragdemo .rg-ask input{flex:1;background:var(--rg-panel);border:1px solid var(--rg-line);color:var(--rg-ink);
+      border-radius:12px;padding:12px 14px;font-size:15px}
+    #ragdemo .rg-ask input:focus{outline:none;border-color:var(--rg-det)}
+    #ragdemo .rg-ask button{background:var(--rg-det);color:#04120c;border:0;border-radius:12px;
+      padding:0 18px;font-weight:700;cursor:pointer;font-size:15px}
+    #ragdemo .rg-chips{display:flex;flex-wrap:wrap;gap:7px;margin:0}
+    #ragdemo .rg-chip{background:var(--rg-panel);border:1px solid var(--rg-line);color:var(--rg-dim);
+      border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;line-height:1.2}
+    #ragdemo .rg-chip:hover{border-color:var(--rg-det);color:var(--rg-ink)}
+  </style>
+  <div id="ragdemo">
+    <div class="rg-cols">
+      <div class="rg-card rg-rag">
+        <div class="rg-head"><span class="rg-kick">Retrieval only</span><span class="rg-bench" id="rgRagBench"></span></div>
+        <div class="rg-sub">Answers from the chunks it pulled</div>
+        <div class="rg-answer" id="rgRagAns">—</div>
+        <div id="rgRagBadge"></div>
+        <div class="rg-meta" id="rgRagMeta"></div>
+      </div>
+      <div class="rg-card rg-det">
+        <div class="rg-head"><span class="rg-kick">Routed to code</span><span class="rg-bench" id="rgDetBench"></span></div>
+        <div class="rg-sub">A query over the reconciled ledger, verified</div>
+        <div class="rg-answer" id="rgDetAns">—</div>
+        <div id="rgDetBadge"></div>
+        <div class="rg-meta" id="rgDetMeta"></div>
+      </div>
+    </div>
+    <p class="rg-note" id="rgNote"></p>
+    <form class="rg-ask" id="rgAsk">
+      <input id="rgQ" autocomplete="off" placeholder="Ask about the invoices, POs, and payments…">
+      <button type="submit">Ask</button>
+    </form>
+    <div class="rg-chips" id="rgChips"></div>
+  </div>
+  <script type="application/json" id="rgData">{"invoices":[{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55115","vendor_id":"V-1006","vendor_name":"Kestrel Print Studio","invoice_number":"19296","po_number":"PO-10416","subtotal":4700.0,"tax":282.0,"total":4982.0,"amount_paid":4982.0,"status":"RECONCILED","exceptions":[],"bank_refs":["8747603981"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55134","vendor_id":"V-1008","vendor_name":"Lumen Ridge Lighting Co.","invoice_number":"LRL49880","po_number":"PO-10449","subtotal":1682.78,"tax":86.24,"total":1769.02,"amount_paid":1769.02,"status":"RECONCILED","exceptions":[],"bank_refs":["3301331153"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55138","vendor_id":"V-1001","vendor_name":"Bristlecone Packaging Co.","invoice_number":"BPC-25280","po_number":"PO-10475","subtotal":1944.0,"tax":0.0,"total":1944.0,"amount_paid":0.0,"status":"OPEN_UNPAID","exceptions":[],"bank_refs":[]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55149","vendor_id":"V-1011","vendor_name":"Marigold Catering","invoice_number":"MCG62261","po_number":null,"subtotal":3250.0,"tax":0.0,"total":3250.0,"amount_paid":3250.0,"status":"EXCEPTION","exceptions":["MISSING_PO"],"bank_refs":["3483990597"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55155","vendor_id":"V-1010","vendor_name":"Cobalt Bay Software","invoice_number":"CBS-2026-2274","po_number":"PO-10427","subtotal":3750.0,"tax":0.0,"total":3750.0,"amount_paid":3750.0,"status":"RECONCILED","exceptions":[],"bank_refs":["1000470208"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55167","vendor_id":"V-1007","vendor_name":"Ironvale Fasteners Corp.","invoice_number":"IVF-56804","po_number":"PO-10439","subtotal":746.2,"tax":44.77,"total":790.97,"amount_paid":790.97,"status":"RECONCILED","exceptions":[],"bank_refs":["1025356751"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55178","vendor_id":"V-1003","vendor_name":"Tidewater Freight Solutions","invoice_number":"TFS-65403-R","po_number":"PO-10462","subtotal":744.0,"tax":0.0,"total":744.0,"amount_paid":744.0,"status":"EXCEPTION","exceptions":["DUPLICATE_INVOICE","DUPLICATE_PAYMENT"],"bank_refs":["5960557854"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55182","vendor_id":"V-1012","vendor_name":"Stonebrook Logistics","invoice_number":"SBL-13705","po_number":"PO-10432","subtotal":3735.0,"tax":0.0,"total":3735.0,"amount_paid":3735.0,"status":"RECONCILED","exceptions":[],"bank_refs":["4016785244"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55200","vendor_id":"V-1001","vendor_name":"Bristlecone Packaging Company","invoice_number":"BPC-25278","po_number":"PO-10435","subtotal":1848.0,"tax":0.0,"total":1848.0,"amount_paid":1848.0,"status":"RECONCILED","exceptions":[],"bank_refs":["10472"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55219","vendor_id":"V-1009","vendor_name":"Pinehollow Janitorial","invoice_number":"PJ-25104","po_number":"PO-10468","subtotal":8000.0,"tax":0.0,"total":8000.0,"amount_paid":4000.0,"status":"EXCEPTION","exceptions":["PARTIAL_PAYMENT"],"bank_refs":["2446173062"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55230","vendor_id":"V-1008","vendor_name":"Lumen Ridge Lighting","invoice_number":"LRL49877","po_number":"PO-10421","subtotal":628.0,"tax":32.19,"total":660.19,"amount_paid":660.19,"status":"RECONCILED","exceptions":[],"bank_refs":["6497243068"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55247","vendor_id":"V-1002","vendor_name":"HALVORSEN INDUSTRIAL SUPPLY, LLC","invoice_number":"HIS007442","po_number":"PO-10407","subtotal":2968.2,"tax":163.25,"total":3131.45,"amount_paid":3131.45,"status":"RECONCILED","exceptions":[],"bank_refs":["2904072831"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55252","vendor_id":"V-1009","vendor_name":"Pinehollow Janitorial Services","invoice_number":"PJ-25108","po_number":"PO-10490","subtotal":8550.0,"tax":0.0,"total":8550.0,"amount_paid":8550.0,"status":"RECONCILED","exceptions":[],"bank_refs":["5578464595"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55256","vendor_id":"V-1006","vendor_name":"Kestrel Print Studio","invoice_number":"19297","po_number":"PO-10463","subtotal":360.4,"tax":21.62,"total":382.02,"amount_paid":382.02,"status":"RECONCILED","exceptions":[],"bank_refs":["9402839870"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55263","vendor_id":"V-1007","vendor_name":"Ironvale Fasteners Corp.","invoice_number":"IVF-56812","po_number":"PO-10443","subtotal":828.0,"tax":49.68,"total":877.68,"amount_paid":877.68,"status":"RECONCILED","exceptions":[],"bank_refs":["1025356751"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55271","vendor_id":"V-1005","vendor_name":"Redfern Electrical Components Inc","invoice_number":"RE-082350","po_number":"PO-10455","subtotal":1085.1,"tax":89.52,"total":1174.62,"amount_paid":1174.62,"status":"EXCEPTION","exceptions":["AMOUNT_MISMATCH_PO"],"bank_refs":["7709393634"]},{"source":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55278","vendor_id":"V-1004","vendor_name":"Juniper & Ash","invoice_number":"JA-39236","po_number":"PO-10412","subtotal":3501.59,"tax":192.59,"total":3694.18,"amount_paid":3694.18,"status":"RECONCILED","exceptions":[],"bank_refs":["8073523536"]},{"source":"inbox/Bristlecone_BPC-25277.pdf","vendor_id":"V-1001","vendor_name":"Bristlecone Packaging Company","invoice_number":"BPC-25277","po_number":"PO-10403","subtotal":3181.0,"tax":0.0,"total":3181.0,"amount_paid":3181.0,"status":"RECONCILED","exceptions":[],"bank_refs":["7900936575"]},{"source":"inbox/Cobalt_CBS-2026-2279.pdf","vendor_id":"V-1010","vendor_name":"Cobalt Bay Software","invoice_number":"CBS-2026-2279","po_number":"PO-10479","subtotal":7965.0,"tax":0.0,"total":7965.0,"amount_paid":0.0,"status":"OPEN_UNPAID","exceptions":[],"bank_refs":[]},{"source":"inbox/Cobalt_CBS-2026-2282.pdf","vendor_id":"V-1010","vendor_name":"Cobalt Bay Software","invoice_number":"CBS-2026-2282","po_number":"PO-10487","subtotal":7245.0,"tax":0.0,"total":7245.0,"amount_paid":7245.0,"status":"RECONCILED","exceptions":[],"bank_refs":["6101327987"]},{"source":"inbox/HALVORSEN_HIS007446.pdf","vendor_id":"V-1002","vendor_name":"Halvorsen Industrial Supply, LLC","invoice_number":"HIS007446","po_number":"PO-10451","subtotal":1394.5,"tax":76.7,"total":1471.2,"amount_paid":1471.2,"status":"EXCEPTION","exceptions":["AMOUNT_MISMATCH_PO"],"bank_refs":["8224044834"]},{"source":"inbox/HALVORSEN_HIS007450_scan.pdf","vendor_id":"V-1002","vendor_name":"Halvorsen Industrial Supply, LLC","invoice_number":"HIS007450","po_number":"PO-10472","subtotal":2398.6,"tax":131.92,"total":2530.52,"amount_paid":1518.31,"status":"EXCEPTION","exceptions":["PARTIAL_PAYMENT"],"bank_refs":["6216634026"]},{"source":"inbox/IRONVALE_IVF-56797.pdf","vendor_id":"V-1007","vendor_name":"Ironvale Fasteners Corporation","invoice_number":"IVF-56797","po_number":"PO-10418","subtotal":1257.2,"tax":75.43,"total":1332.63,"amount_paid":1332.63,"status":"RECONCILED","exceptions":[],"bank_refs":["5245135044"]},{"source":"inbox/IRONVALE_IVF-56810.pdf","vendor_id":"V-1007","vendor_name":"Ironvale Fasteners Corporation","invoice_number":"IVF-56810","po_number":"PO-10442","subtotal":1029.3,"tax":61.76,"total":1091.06,"amount_paid":1091.06,"status":"RECONCILED","exceptions":[],"bank_refs":["1025356751"]},{"source":"inbox/Juniper_JA-39241.pdf","vendor_id":"V-1004","vendor_name":"Juniper & Ash","invoice_number":"JA-39241","po_number":"PO-10445","subtotal":2754.92,"tax":151.52,"total":2906.44,"amount_paid":2906.44,"status":"RECONCILED","exceptions":[],"bank_refs":["4084727588"]},{"source":"inbox/Juniper_JA-39244_scan.pdf","vendor_id":"V-1004","vendor_name":"Juniper & Ash","invoice_number":"JA-39244","po_number":null,"subtotal":924.0,"tax":50.82,"total":974.82,"amount_paid":974.82,"status":"EXCEPTION","exceptions":["MISSING_PO"],"bank_refs":["8666001391"]},{"source":"inbox/Kestrel_19297-R.pdf","vendor_id":"V-1006","vendor_name":"Kestrel Print Studio","invoice_number":"19297-R","po_number":"PO-10463","subtotal":360.4,"tax":21.62,"total":382.02,"amount_paid":0.0,"status":"EXCEPTION","exceptions":["DUPLICATE_INVOICE"],"bank_refs":[]},{"source":"inbox/Kestrel_19302.pdf","vendor_id":"V-1006","vendor_name":"Kestrel Print Studio","invoice_number":"19302","po_number":null,"subtotal":11921.2,"tax":715.27,"total":12636.47,"amount_paid":12636.47,"status":"EXCEPTION","exceptions":["MISSING_PO"],"bank_refs":["9349978353"]},{"source":"inbox/Lumen_LRL49885.pdf","vendor_id":"V-1008","vendor_name":"Lumen Ridge Lighting Co.","invoice_number":"LRL49885","po_number":"PO-10480","subtotal":803.0,"tax":41.15,"total":844.15,"amount_paid":0.0,"status":"OPEN_UNPAID","exceptions":[],"bank_refs":[]},{"source":"inbox/Marigold_MCG62251.pdf","vendor_id":"V-1011","vendor_name":"Marigold Catering","invoice_number":"MCG62251","po_number":"PO-10431","subtotal":2830.0,"tax":0.0,"total":2830.0,"amount_paid":2830.0,"status":"RECONCILED","exceptions":[],"bank_refs":["1413535078"]},{"source":"inbox/Marigold_MCG62254.pdf","vendor_id":"V-1011","vendor_name":"Marigold Catering","invoice_number":"MCG62254","po_number":"PO-10465","subtotal":3755.0,"tax":0.0,"total":3755.0,"amount_paid":1877.5,"status":"EXCEPTION","exceptions":["PARTIAL_PAYMENT"],"bank_refs":["7340070545"]},{"source":"inbox/Pinehollow_PJ-25103.pdf","vendor_id":"V-1009","vendor_name":"Pinehollow Janitorial","invoice_number":"PJ-25103","po_number":"PO-10425","subtotal":5700.0,"tax":0.0,"total":5700.0,"amount_paid":5700.0,"status":"RECONCILED","exceptions":[],"bank_refs":["5779661422"]},{"source":"inbox/Redfern_RE-082348.pdf","vendor_id":"V-1005","vendor_name":"Redfern Electrical Components Inc","invoice_number":"RE-082348","po_number":"PO-10414","subtotal":1410.0,"tax":116.33,"total":1526.33,"amount_paid":1526.33,"status":"RECONCILED","exceptions":[],"bank_refs":["7168515955"]},{"source":"inbox/Redfern_RE-082349.pdf","vendor_id":"V-1005","vendor_name":"Redfern Electrical Components Inc","invoice_number":"RE-082349","po_number":"PO-10437","subtotal":2316.4,"tax":191.1,"total":2507.5,"amount_paid":2507.5,"status":"RECONCILED","exceptions":[],"bank_refs":["10474"]},{"source":"inbox/Stonebrook_SBL-13710_scan.pdf","vendor_id":"V-1012","vendor_name":"Stonebrook Logistics, Inc.","invoice_number":"SBL-13710","po_number":"PO-10458","subtotal":4395.0,"tax":0.0,"total":4395.0,"amount_paid":4395.0,"status":"EXCEPTION","exceptions":["AMOUNT_MISMATCH_PO"],"bank_refs":["5725549596"]},{"source":"inbox/Stonebrook_SBL-13714.pdf","vendor_id":"V-1012","vendor_name":"Stonebrook Logistics, Inc.","invoice_number":"SBL-13714","po_number":"PO-10485","subtotal":960.0,"tax":0.0,"total":960.0,"amount_paid":960.0,"status":"RECONCILED","exceptions":[],"bank_refs":["5774365313"]},{"source":"inbox/Tidewater_TFS-65401.pdf","vendor_id":"V-1003","vendor_name":"Tidewater Freight Solutions","invoice_number":"TFS-65401","po_number":"PO-10410","subtotal":475.0,"tax":0.0,"total":475.0,"amount_paid":475.0,"status":"RECONCILED","exceptions":[],"bank_refs":["7682258494"]},{"source":"inbox/Tidewater_TFS-65403.pdf","vendor_id":"V-1003","vendor_name":"Tidewater Freight Solutions","invoice_number":"TFS-65403","po_number":"PO-10462","subtotal":744.0,"tax":0.0,"total":744.0,"amount_paid":744.0,"status":"EXCEPTION","exceptions":["DUPLICATE_INVOICE"],"bank_refs":["8778374086"]},{"source":"inbox/Tidewater_TFS-65406_scan.pdf","vendor_id":"V-1003","vendor_name":"Tidewater Freight Solutions","invoice_number":"TFS-65406","po_number":"PO-10481","subtotal":1240.0,"tax":0.0,"total":1240.0,"amount_paid":1240.0,"status":"RECONCILED","exceptions":[],"bank_refs":["6877518962"]}],"payments":[{"bank_ref":"8747603981","amount":4982.0,"vendor_id":"V-1006","status":"MATCHED"},{"bank_ref":"3483990597","amount":3250.0,"vendor_id":"V-1011","status":"MATCHED"},{"bank_ref":"1413535078","amount":2830.0,"vendor_id":"V-1011","status":"MATCHED"},{"bank_ref":"9349978353","amount":12636.47,"vendor_id":"V-1006","status":"MATCHED"},{"bank_ref":"8778374086","amount":744.0,"vendor_id":"V-1003","status":"MATCHED"},{"bank_ref":"6877518962","amount":1240.0,"vendor_id":"V-1003","status":"MATCHED"},{"bank_ref":"5960557854","amount":744.0,"vendor_id":"V-1003","status":"MATCHED"},{"bank_ref":"3301331153","amount":1769.02,"vendor_id":"V-1008","status":"MATCHED"},{"bank_ref":"4084727588","amount":2906.44,"vendor_id":"V-1004","status":"MATCHED"},{"bank_ref":"2446173062","amount":4000.0,"vendor_id":"V-1009","status":"MATCHED"},{"bank_ref":"7340070545","amount":1877.5,"vendor_id":"V-1011","status":"MATCHED"},{"bank_ref":"6101327987","amount":7245.0,"vendor_id":"V-1010","status":"MATCHED"},{"bank_ref":"7900936575","amount":3181.0,"vendor_id":"V-1001","status":"MATCHED"},{"bank_ref":"5774365313","amount":960.0,"vendor_id":"V-1012","status":"MATCHED"},{"bank_ref":"7682258494","amount":475.0,"vendor_id":"V-1003","status":"MATCHED"},{"bank_ref":"1000470208","amount":3750.0,"vendor_id":"V-1010","status":"MATCHED"},{"bank_ref":"5578464595","amount":8550.0,"vendor_id":"V-1009","status":"MATCHED"},{"bank_ref":"9402839870","amount":382.02,"vendor_id":"V-1006","status":"MATCHED"},{"bank_ref":"5779661422","amount":5700.0,"vendor_id":"V-1009","status":"MATCHED"},{"bank_ref":"4016785244","amount":3735.0,"vendor_id":"V-1012","status":"MATCHED"},{"bank_ref":"8945676000","amount":612.4,"vendor_id":"V-1004","status":"UNMATCHED_PAYMENT"},{"bank_ref":"5245135044","amount":1332.63,"vendor_id":"V-1007","status":"MATCHED"},{"bank_ref":"10472","amount":1848.0,"vendor_id":null,"status":"MATCHED"},{"bank_ref":"10474","amount":2507.5,"vendor_id":null,"status":"MATCHED"},{"bank_ref":"6497243068","amount":660.19,"vendor_id":"V-1008","status":"MATCHED"},{"bank_ref":"5725549596","amount":4395.0,"vendor_id":"V-1012","status":"MATCHED"},{"bank_ref":"2904072831","amount":3131.45,"vendor_id":"V-1002","status":"MATCHED"},{"bank_ref":"6216634026","amount":1518.31,"vendor_id":"V-1002","status":"MATCHED"},{"bank_ref":"1025356751","amount":2759.71,"vendor_id":"V-1007","status":"MATCHED"},{"bank_ref":"8666001391","amount":974.82,"vendor_id":"V-1004","status":"MATCHED"},{"bank_ref":"8224044834","amount":1471.2,"vendor_id":"V-1002","status":"MATCHED"},{"bank_ref":"7168515955","amount":1526.33,"vendor_id":"V-1005","status":"MATCHED"},{"bank_ref":"8989911891","amount":4180.0,"vendor_id":"V-1008","status":"UNMATCHED_PAYMENT"},{"bank_ref":"7709393634","amount":1174.62,"vendor_id":"V-1005","status":"MATCHED"},{"bank_ref":"8073523536","amount":3694.18,"vendor_id":"V-1004","status":"MATCHED"}],"corpus":[{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55115","kind":"invoice","vendor_id":"V-1006","invoice_number":"19296","text":"Invoice 19296 from Kestrel Print Studio. PO PO-10416. Invoice date 08/28/2026. Subtotal 4700.00, tax 282.00, total 4982.00. Status RECONCILED. Paid 4982.00. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55134","kind":"invoice","vendor_id":"V-1008","invoice_number":"LRL49880","text":"Invoice LRL49880 from Lumen Ridge Lighting Co.. PO PO-10449. Invoice date 08/31/2026. Subtotal 1682.78, tax 86.24, total 1769.02. Status RECONCILED. Paid 1769.02. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55138","kind":"invoice","vendor_id":"V-1001","invoice_number":"BPC-25280","text":"Invoice BPC-25280 from Bristlecone Packaging Co.. PO PO-10475. Invoice date 09/01/2026. Subtotal 1944.00, tax 0.00, total 1944.00. Status OPEN_UNPAID. Paid 0.00. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55149","kind":"invoice","vendor_id":"V-1011","invoice_number":"MCG62261","text":"Invoice MCG62261 from Marigold Catering. PO none. Invoice date 09/03/2026. Subtotal 3250.00, tax 0.00, total 3250.00. Status EXCEPTION. Paid 3250.00. Flags: MISSING_PO"},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55155","kind":"invoice","vendor_id":"V-1010","invoice_number":"CBS-2026-2274","text":"Invoice CBS-2026-2274 from Cobalt Bay Software. PO PO-10427. Invoice date 09/11/2026. Subtotal 3750.00, tax 0.00, total 3750.00. Status RECONCILED. Paid 3750.00. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55167","kind":"invoice","vendor_id":"V-1007","invoice_number":"IVF-56804","text":"Invoice IVF-56804 from Ironvale Fasteners Corp.. PO PO-10439. Invoice date 09/13/2026. Subtotal 746.20, tax 44.77, total 790.97. Status RECONCILED. Paid 790.97. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55178","kind":"invoice","vendor_id":"V-1003","invoice_number":"TFS-65403-R","text":"Invoice TFS-65403-R from Tidewater Freight Solutions. PO PO-10462. Invoice date 09/14/2026. Subtotal 744.00, tax 0.00, total 744.00. Status EXCEPTION. Paid 744.00. Flags: DUPLICATE_INVOICE, DUPLICATE_PAYMENT"},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55182","kind":"invoice","vendor_id":"V-1012","invoice_number":"SBL-13705","text":"Invoice SBL-13705 from Stonebrook Logistics. PO PO-10432. Invoice date 09/15/2026. Subtotal 3735.00, tax 0.00, total 3735.00. Status RECONCILED. Paid 3735.00. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55200","kind":"invoice","vendor_id":"V-1001","invoice_number":"BPC-25278","text":"Invoice BPC-25278 from Bristlecone Packaging Company. PO PO-10435. Invoice date 09/15/2026. Subtotal 1848.00, tax 0.00, total 1848.00. Status RECONCILED. Paid 1848.00. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55219","kind":"invoice","vendor_id":"V-1009","invoice_number":"PJ-25104","text":"Invoice PJ-25104 from Pinehollow Janitorial. PO PO-10468. Invoice date 09/17/2026. Subtotal 8000.00, tax 0.00, total 8000.00. Status EXCEPTION. Paid 4000.00. Flags: PARTIAL_PAYMENT"},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55230","kind":"invoice","vendor_id":"V-1008","invoice_number":"LRL49877","text":"Invoice LRL49877 from Lumen Ridge Lighting. PO PO-10421. Invoice date 09/19/2026. Subtotal 628.00, tax 32.19, total 660.19. Status RECONCILED. Paid 660.19. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55247","kind":"invoice","vendor_id":"V-1002","invoice_number":"HIS007442","text":"Invoice HIS007442 from HALVORSEN INDUSTRIAL SUPPLY, LLC. PO PO-10407. Invoice date 09/21/2026. Subtotal 2968.20, tax 163.25, total 3131.45. Status RECONCILED. Paid 3131.45. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55252","kind":"invoice","vendor_id":"V-1009","invoice_number":"PJ-25108","text":"Invoice PJ-25108 from Pinehollow Janitorial Services. PO PO-10490. Invoice date 09/23/2026. Subtotal 8550.00, tax 0.00, total 8550.00. Status RECONCILED. Paid 8550.00. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55256","kind":"invoice","vendor_id":"V-1006","invoice_number":"19297","text":"Invoice 19297 from Kestrel Print Studio. PO PO-10463. Invoice date 09/25/2026. Subtotal 360.40, tax 21.62, total 382.02. Status RECONCILED. Paid 382.02. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55263","kind":"invoice","vendor_id":"V-1007","invoice_number":"IVF-56812","text":"Invoice IVF-56812 from Ironvale Fasteners Corp.. PO PO-10443. Invoice date 09/28/2026. Subtotal 828.00, tax 49.68, total 877.68. Status RECONCILED. Paid 877.68. No exceptions."},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55271","kind":"invoice","vendor_id":"V-1005","invoice_number":"RE-082350","text":"Invoice RE-082350 from Redfern Electrical Components Inc. PO PO-10455. Invoice date 09/28/2026. Subtotal 1085.10, tax 89.52, total 1174.62. Status EXCEPTION. Paid 1174.62. Flags: AMOUNT_MISMATCH_PO"},{"id":"LedgerLoop_AP_Invoices_Export_2026-11-01.csv#LL-55278","kind":"invoice","vendor_id":"V-1004","invoice_number":"JA-39236","text":"Invoice JA-39236 from Juniper & Ash. PO PO-10412. Invoice date 10/01/2026. Subtotal 3501.59, tax 192.59, total 3694.18. Status RECONCILED. Paid 3694.18. No exceptions."},{"id":"inbox/Bristlecone_BPC-25277.pdf","kind":"invoice","vendor_id":"V-1001","invoice_number":"BPC-25277","text":"Invoice BPC-25277 from Bristlecone Packaging Company. PO PO-10403. Invoice date 2026-09-09. Subtotal 3181.00, tax 0.00, total 3181.00. Status RECONCILED. Paid 3181.00. No exceptions."},{"id":"inbox/Cobalt_CBS-2026-2279.pdf","kind":"invoice","vendor_id":"V-1010","invoice_number":"CBS-2026-2279","text":"Invoice CBS-2026-2279 from Cobalt Bay Software. PO PO-10479. Invoice date 2026-09-28. Subtotal 7965.00, tax 0.00, total 7965.00. Status OPEN_UNPAID. Paid 0.00. No exceptions."},{"id":"inbox/Cobalt_CBS-2026-2282.pdf","kind":"invoice","vendor_id":"V-1010","invoice_number":"CBS-2026-2282","text":"Invoice CBS-2026-2282 from Cobalt Bay Software. PO PO-10487. Invoice date 2026-09-07. Subtotal 7245.00, tax 0.00, total 7245.00. Status RECONCILED. Paid 7245.00. No exceptions."},{"id":"inbox/HALVORSEN_HIS007446.pdf","kind":"invoice","vendor_id":"V-1002","invoice_number":"HIS007446","text":"Invoice HIS007446 from Halvorsen Industrial Supply, LLC. PO PO-10451. Invoice date 2026-09-23. Subtotal 1394.50, tax 76.70, total 1471.20. Status EXCEPTION. Paid 1471.20. Flags: AMOUNT_MISMATCH_PO"},{"id":"inbox/HALVORSEN_HIS007450_scan.pdf","kind":"invoice","vendor_id":"V-1002","invoice_number":"HIS007450","text":"Invoice HIS007450 from Halvorsen Industrial Supply, LLC. PO PO-10472. Invoice date 2026-09-24. Subtotal 2398.60, tax 131.92, total 2530.52. Status EXCEPTION. Paid 1518.31. Flags: PARTIAL_PAYMENT"},{"id":"inbox/IRONVALE_IVF-56797.pdf","kind":"invoice","vendor_id":"V-1007","invoice_number":"IVF-56797","text":"Invoice IVF-56797 from Ironvale Fasteners Corporation. PO PO-10418. Invoice date 2026-09-18. Subtotal 1257.20, tax 75.43, total 1332.63. Status RECONCILED. Paid 1332.63. No exceptions."},{"id":"inbox/IRONVALE_IVF-56810.pdf","kind":"invoice","vendor_id":"V-1007","invoice_number":"IVF-56810","text":"Invoice IVF-56810 from Ironvale Fasteners Corporation. PO PO-10442. Invoice date 2026-09-15. Subtotal 1029.30, tax 61.76, total 1091.06. Status RECONCILED. Paid 1091.06. No exceptions."},{"id":"inbox/Juniper_JA-39241.pdf","kind":"invoice","vendor_id":"V-1004","invoice_number":"JA-39241","text":"Invoice JA-39241 from Juniper & Ash. PO PO-10445. Invoice date 2026-09-03. Subtotal 2754.92, tax 151.52, total 2906.44. Status RECONCILED. Paid 2906.44. No exceptions."},{"id":"inbox/Juniper_JA-39244_scan.pdf","kind":"invoice","vendor_id":"V-1004","invoice_number":"JA-39244","text":"Invoice JA-39244 from Juniper & Ash. PO none. Invoice date 2026-09-24. Subtotal 924.00, tax 50.82, total 974.82. Status EXCEPTION. Paid 974.82. Flags: MISSING_PO"},{"id":"inbox/Kestrel_19297-R.pdf","kind":"invoice","vendor_id":"V-1006","invoice_number":"19297-R","text":"Invoice 19297-R from Kestrel Print Studio. PO PO-10463. Invoice date 2026-10-03. Subtotal 360.40, tax 21.62, total 382.02. Status EXCEPTION. Paid 0.00. Flags: DUPLICATE_INVOICE"},{"id":"inbox/Kestrel_19302.pdf","kind":"invoice","vendor_id":"V-1006","invoice_number":"19302","text":"Invoice 19302 from Kestrel Print Studio. PO none. Invoice date 2026-09-11. Subtotal 11921.20, tax 715.27, total 12636.47. Status EXCEPTION. Paid 12636.47. Flags: MISSING_PO"},{"id":"inbox/Lumen_LRL49885.pdf","kind":"invoice","vendor_id":"V-1008","invoice_number":"LRL49885","text":"Invoice LRL49885 from Lumen Ridge Lighting Co.. PO PO-10480. Invoice date 2026-09-17. Subtotal 803.00, tax 41.15, total 844.15. Status OPEN_UNPAID. Paid 0.00. No exceptions."},{"id":"inbox/Marigold_MCG62251.pdf","kind":"invoice","vendor_id":"V-1011","invoice_number":"MCG62251","text":"Invoice MCG62251 from Marigold Catering. PO PO-10431. Invoice date 2026-09-08. Subtotal 2830.00, tax 0.00, total 2830.00. Status RECONCILED. Paid 2830.00. No exceptions."},{"id":"inbox/Marigold_MCG62254.pdf","kind":"invoice","vendor_id":"V-1011","invoice_number":"MCG62254","text":"Invoice MCG62254 from Marigold Catering. PO PO-10465. Invoice date 2026-09-19. Subtotal 3755.00, tax 0.00, total 3755.00. Status EXCEPTION. Paid 1877.50. Flags: PARTIAL_PAYMENT"},{"id":"inbox/Pinehollow_PJ-25103.pdf","kind":"invoice","vendor_id":"V-1009","invoice_number":"PJ-25103","text":"Invoice PJ-25103 from Pinehollow Janitorial. PO PO-10425. Invoice date 2026-09-30. Subtotal 5700.00, tax 0.00, total 5700.00. Status RECONCILED. Paid 5700.00. No exceptions."},{"id":"inbox/Redfern_RE-082348.pdf","kind":"invoice","vendor_id":"V-1005","invoice_number":"RE-082348","text":"Invoice RE-082348 from Redfern Electrical Components Inc. PO PO-10414. Invoice date 2026-09-25. Subtotal 1410.00, tax 116.33, total 1526.33. Status RECONCILED. Paid 1526.33. No exceptions."},{"id":"inbox/Redfern_RE-082349.pdf","kind":"invoice","vendor_id":"V-1005","invoice_number":"RE-082349","text":"Invoice RE-082349 from Redfern Electrical Components Inc. PO PO-10437. Invoice date 2026-09-17. Subtotal 2316.40, tax 191.10, total 2507.50. Status RECONCILED. Paid 2507.50. No exceptions."},{"id":"inbox/Stonebrook_SBL-13710_scan.pdf","kind":"invoice","vendor_id":"V-1012","invoice_number":"SBL-13710","text":"Invoice SBL-13710 from Stonebrook Logistics, Inc.. PO PO-10458. Invoice date 2026-09-20. Subtotal 4395.00, tax 0.00, total 4395.00. Status EXCEPTION. Paid 4395.00. Flags: AMOUNT_MISMATCH_PO"},{"id":"inbox/Stonebrook_SBL-13714.pdf","kind":"invoice","vendor_id":"V-1012","invoice_number":"SBL-13714","text":"Invoice SBL-13714 from Stonebrook Logistics, Inc.. PO PO-10485. Invoice date 2026-09-07. Subtotal 960.00, tax 0.00, total 960.00. Status RECONCILED. Paid 960.00. No exceptions."},{"id":"inbox/Tidewater_TFS-65401.pdf","kind":"invoice","vendor_id":"V-1003","invoice_number":"TFS-65401","text":"Invoice TFS-65401 from Tidewater Freight Solutions. PO PO-10410. Invoice date 2026-09-22. Subtotal 475.00, tax 0.00, total 475.00. Status RECONCILED. Paid 475.00. No exceptions."},{"id":"inbox/Tidewater_TFS-65403.pdf","kind":"invoice","vendor_id":"V-1003","invoice_number":"TFS-65403","text":"Invoice TFS-65403 from Tidewater Freight Solutions. PO PO-10462. Invoice date 2026-09-09. Subtotal 744.00, tax 0.00, total 744.00. Status EXCEPTION. Paid 744.00. Flags: DUPLICATE_INVOICE"},{"id":"inbox/Tidewater_TFS-65406_scan.pdf","kind":"invoice","vendor_id":"V-1003","invoice_number":"TFS-65406","text":"Invoice TFS-65406 from Tidewater Freight Solutions. PO PO-10481. Invoice date 2026-09-12. Subtotal 1240.00, tax 0.00, total 1240.00. Status RECONCILED. Paid 1240.00. No exceptions."},{"id":"po:PO-10403","kind":"po","text":"Purchase order PO-10403, total 3181.00."},{"id":"po:PO-10407","kind":"po","text":"Purchase order PO-10407, total 2968.20."},{"id":"po:PO-10410","kind":"po","text":"Purchase order PO-10410, total 475.00."},{"id":"po:PO-10412","kind":"po","text":"Purchase order PO-10412, total 3501.59."},{"id":"po:PO-10414","kind":"po","text":"Purchase order PO-10414, total 1410.00."},{"id":"po:PO-10416","kind":"po","text":"Purchase order PO-10416, total 4700.00."},{"id":"po:PO-10418","kind":"po","text":"Purchase order PO-10418, total 1257.20."},{"id":"po:PO-10421","kind":"po","text":"Purchase order PO-10421, total 628.00."},{"id":"po:PO-10425","kind":"po","text":"Purchase order PO-10425, total 5700.00."},{"id":"po:PO-10427","kind":"po","text":"Purchase order PO-10427, total 3750.00."},{"id":"po:PO-10431","kind":"po","text":"Purchase order PO-10431, total 2830.00."},{"id":"po:PO-10432","kind":"po","text":"Purchase order PO-10432, total 3735.00."},{"id":"po:PO-10435","kind":"po","text":"Purchase order PO-10435, total 1848.00."},{"id":"po:PO-10437","kind":"po","text":"Purchase order PO-10437, total 2316.40."},{"id":"po:PO-10439","kind":"po","text":"Purchase order PO-10439, total 746.20."},{"id":"po:PO-10442","kind":"po","text":"Purchase order PO-10442, total 1029.30."},{"id":"po:PO-10443","kind":"po","text":"Purchase order PO-10443, total 828.00."},{"id":"po:PO-10445","kind":"po","text":"Purchase order PO-10445, total 2754.89."},{"id":"po:PO-10449","kind":"po","text":"Purchase order PO-10449, total 1682.75."},{"id":"po:PO-10451","kind":"po","text":"Purchase order PO-10451, total 1179.75."},{"id":"po:PO-10455","kind":"po","text":"Purchase order PO-10455, total 1045.70."},{"id":"po:PO-10458","kind":"po","text":"Purchase order PO-10458, total 3615.00."},{"id":"po:PO-10462","kind":"po","text":"Purchase order PO-10462, total 744.00."},{"id":"po:PO-10463","kind":"po","text":"Purchase order PO-10463, total 360.40."},{"id":"po:PO-10465","kind":"po","text":"Purchase order PO-10465, total 3755.00."},{"id":"po:PO-10468","kind":"po","text":"Purchase order PO-10468, total 8000.00."},{"id":"po:PO-10472","kind":"po","text":"Purchase order PO-10472, total 2398.60."},{"id":"po:PO-10475","kind":"po","text":"Purchase order PO-10475, total 1944.00."},{"id":"po:PO-10479","kind":"po","text":"Purchase order PO-10479, total 7965.00."},{"id":"po:PO-10480","kind":"po","text":"Purchase order PO-10480, total 803.00."},{"id":"po:PO-10481","kind":"po","text":"Purchase order PO-10481, total 1240.00."},{"id":"po:PO-10485","kind":"po","text":"Purchase order PO-10485, total 960.00."},{"id":"po:PO-10487","kind":"po","text":"Purchase order PO-10487, total 7245.00."},{"id":"po:PO-10490","kind":"po","text":"Purchase order PO-10490, total 8550.00."}],"examples":[{"q":"What is the total on invoice 19296?","type":"lookup"},{"q":"What is the total on invoice LRL49885?","type":"lookup"},{"q":"What is the total on invoice HIS007446?","type":"lookup"},{"q":"What is the total on invoice SBL-13714?","type":"lookup"},{"q":"What is the total on invoice CBS-2026-2279?","type":"lookup"},{"q":"What PO is invoice LRL49885 against?","type":"lookup"},{"q":"What was the subtotal before tax on invoice HIS007446?","type":"lookup"},{"q":"How much did we pay Marigold Catering Group in total?","type":"aggregate"},{"q":"How much did we pay Kestrel Print Studio in total?","type":"aggregate"},{"q":"How many invoices are still unpaid?","type":"aggregate"},{"q":"How many invoices were flagged as exceptions?","type":"aggregate"},{"q":"What is the total dollar value of all unpaid invoices?","type":"aggregate"},{"q":"How many duplicate invoices were found?","type":"aggregate"},{"q":"Which invoices are missing a purchase order?","type":"list"},{"q":"Which invoices were billed over their PO?","type":"list"},{"q":"Which payments had no matching invoice, and for how much?","type":"list"}],"benchmark":{"rag":{"overall":[12,16],"by":{"lookup":[7,7],"aggregate":[3,6],"list":[2,3]}},"hybrid":{"overall":[16,16],"by":{"lookup":[7,7],"aggregate":[6,6],"list":[3,3]}}}}</script>
+  <script>
+  (function(){
+    const $=id=>document.getElementById(id);
+    const DB=JSON.parse($('rgData').textContent);
+    let IDF={},DOCV=[],N=0;
+    const toks=s=>(s.toLowerCase().match(/[a-z0-9][a-z0-9.\-]*/g)||[]);
+    function vec(s){const tf={};toks(s).forEach(t=>tf[t]=(tf[t]||0)+1);const v={};let n=0;
+      for(const t in tf){const w=(1+Math.log(tf[t]))*(IDF[t]||Math.log(N+1)+1);v[t]=w;n+=w*w;}
+      n=Math.sqrt(n)||1;for(const t in v)v[t]/=n;return v;}
+    (function(){const df={};N=DB.corpus.length;
+      DB.corpus.forEach(d=>{[...new Set(toks(d.text))].forEach(t=>df[t]=(df[t]||0)+1);});
+      for(const t in df)IDF[t]=Math.log((N+1)/(df[t]+1))+1;
+      DOCV=DB.corpus.map(d=>[d,vec(d.text)]);})();
+    function retrieve(q,k){k=k||8;const qv=vec(q);
+      return DOCV.map(([d,dv])=>{let s=0;for(const t in qv)if(dv[t])s+=qv[t]*dv[t];return [s,d];})
+        .sort((a,b)=>b[0]-a[0]).slice(0,k).map(x=>x[1]);}
+    const field=(t,lab)=>{const m=t.match(new RegExp(lab+' (\\d[\\d,]*\\.\\d{2})','i'));return m?parseFloat(m[1].replace(/,/g,'')):null;};
+    const INV=()=>DB.invoices,PAY=()=>DB.payments;
+    const invNum=i=>i.invoice_number||i.source.split('#').pop();
+    function vendorIn(q){const ql=q.toLowerCase();
+      const names=[...new Set(INV().map(i=>i.vendor_name).filter(Boolean))].sort((a,b)=>b.length-a.length);
+      for(const v of names){if(ql.includes(v.toLowerCase())||ql.includes(v.toLowerCase().split(' ')[0]))return v;}return null;}
+    function pureRag(q){const ql=q.toLowerCase(),hits=retrieve(q,8),inv=hits.filter(h=>h.kind==='invoice');
+      const srcs=hits.map(h=>h.id);
+      if(/how much|total (paid|value)|spent|spend/.test(ql)){const v=vendorIn(q);
+        if(v){const rows=inv.filter(h=>h.text.toLowerCase().includes(v.split(' ')[0].toLowerCase()));
+          const paid=rows.map(h=>field(h.text,'paid')).filter(x=>x!==null);
+          return {value:paid.length?Math.round(paid.reduce((a,b)=>a+b,0)*100)/100:null,unit:'usd',sources:rows.map(h=>h.id).length?rows.map(h=>h.id):srcs};}
+        if(ql.includes('unpaid')){const rows=inv.filter(h=>h.text.includes('OPEN_UNPAID'));
+          const tot=rows.map(h=>field(h.text,'(?<![a-z])total')).filter(x=>x!==null);
+          return {value:tot.length?Math.round(tot.reduce((a,b)=>a+b,0)*100)/100:null,unit:'usd',sources:rows.map(h=>h.id)};}}
+      if(/how many|number of|count/.test(ql)){
+        const pred=ql.includes('unpaid')?'OPEN_UNPAID':(/exception|flagged/.test(ql))?'EXCEPTION':ql.includes('duplicate')?'DUPLICATE_INVOICE':null;
+        if(pred)return {value:inv.filter(h=>h.text.includes(pred)).length,unit:'count',sources:inv.map(h=>h.id)};}
+      if(/which invoices|list|missing|over (their|the) po|no purchase order/.test(ql)){
+        const pred=/missing|no purchase/.test(ql)?'MISSING_PO':/over (their|the) po|billed more/.test(ql)?'AMOUNT_MISMATCH_PO':null;
+        if(pred){const rows=inv.filter(h=>h.text.includes(pred));
+          return {set:rows.map(h=>h.text.match(/Invoice (\S+) from/)[1]).sort(),sources:rows.map(h=>h.id)};}}
+      const top=hits[0];let val=null;
+      if(top){if(/\bpo\b|purchase order/.test(ql)){const m=top.text.match(/PO (PO-\d+|none)/);val=m?m[1]:null;}
+        else{const lab=(/subtotal|before tax/.test(ql))?'subtotal':/tax/.test(ql)?'tax':'(?<![a-z])total';
+          val=field(top.text,lab);
+          if(val===null){const mon=top.text.match(/\d[\d,]*\.\d{2}/g);if(mon)val=parseFloat(mon[mon.length-1].replace(/,/g,''));}}}
+      return {value:val,unit:(typeof val==='number'?'usd':null),sources:srcs};}
+    function route(q){const ql=q.toLowerCase(),up=q.toUpperCase();
+      const ref=INV().map(invNum).find(n=>new RegExp('(?<![\\w-])'+n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?![\\w-])').test(up));
+      if(ref)return ['lookup',ref];
+      if(/no matching invoice|unmatched|no invoice behind/.test(ql))return ['list','unmatched'];
+      if(/missing|without a (purchase order|po)|no purchase order/.test(ql))return ['list','MISSING_PO'];
+      if(/over their po|over the po|billed more|more than (its|their) po|mismatch/.test(ql))return ['list','AMOUNT_MISMATCH_PO'];
+      if(/how much|total (paid|value)|sum|spend|spent/.test(ql)&&vendorIn(q))return ['agg','paid_vendor'];
+      if(/how many|number of|count/.test(ql)||/total (dollar )?value/.test(ql))return ['agg','count'];
+      return ['lookup',null];}
+    const FIELD=[['po','po_number'],['subtotal','subtotal'],['before tax','subtotal'],['tax','tax'],['date','invoice_date'],['total','total'],['paid','amount_paid']];
+    function hybrid(q){const r=route(q),kind=r[0],arg=r[1],ql=q.toLowerCase();
+      if(kind==='lookup'&&arg){const i=INV().find(x=>invNum(x)===arg);
+        const f=(FIELD.find(x=>ql.includes(x[0]))||[,'total'])[1];
+        return {value:i[f],unit:(['total','subtotal','tax','amount_paid'].includes(f)?'usd':null),sources:[i.source],path:'structured-lookup'};}
+      if(kind==='lookup'){const x=pureRag(q);x.path='retrieval';return x;}
+      if(kind==='list'){if(arg==='unmatched'){const s=PAY().filter(p=>p.status==='UNMATCHED_PAYMENT').map(p=>p.bank_ref+':'+p.amount.toFixed(2)).sort();
+          return {set:s,sources:[],path:'structured-query'};}
+        const rows=INV().filter(i=>(i.exceptions||[]).includes(arg));
+        return {set:rows.map(invNum).sort(),sources:rows.map(i=>i.source),path:'structured-query'};}
+      if(kind==='agg'&&arg==='paid_vendor'){const v=vendorIn(q),rows=INV().filter(i=>i.vendor_name===v&&i.bank_refs&&i.bank_refs.length);
+        return {value:Math.round(rows.reduce((a,i)=>a+i.amount_paid,0)*100)/100,unit:'usd',sources:rows.map(i=>i.source),path:'structured-query'};}
+      if(kind==='agg'){if(ql.includes('unpaid')&&/value|dollar|amount/.test(ql)){const rows=INV().filter(i=>i.status==='OPEN_UNPAID');
+          return {value:Math.round(rows.reduce((a,i)=>a+i.total,0)*100)/100,unit:'usd',sources:rows.map(i=>i.source),path:'structured-query'};}
+        let rows;
+        if(ql.includes('unpaid'))rows=INV().filter(i=>i.status==='OPEN_UNPAID');
+        else if(ql.includes('exception')||ql.includes('flagged'))rows=INV().filter(i=>i.status==='EXCEPTION');
+        else if(ql.includes('duplicate'))rows=INV().filter(i=>(i.exceptions||[]).includes('DUPLICATE_INVOICE'));
+        else return {value:null,sources:[],path:'needs-review'};
+        return {value:rows.length,unit:'count',sources:rows.map(i=>i.source),path:'structured-query'};}
+      return {value:null,sources:[],path:'needs-review'};}
+    const isNum=x=>typeof x==='number';
+    function fmt(a){if(a.set)return a.set.length?a.set.join(', '):'(none found)';
+      if(a.value===null||a.value===undefined)return "can't answer";
+      if(a.unit==='count')return String(a.value);
+      if(isNum(a.value))return '$'+a.value.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+      return a.value;}
+    function same(a,b){if(a.set||b.set)return JSON.stringify(a.set||[])===JSON.stringify(b.set||[]);
+      if(isNum(a.value)&&isNum(b.value))return Math.abs(a.value-b.value)<=0.01;
+      return String(a.value).toLowerCase()===String(b.value).toLowerCase();}
+    function ask(q){$('rgQ').value=q;const det=hybrid(q),rag=pureRag(q);
+      $('rgDetAns').textContent=fmt(det);$('rgDetAns').className='rg-answer'+(det.set?' rg-list':'');
+      $('rgRagAns').textContent=fmt(rag);$('rgRagAns').className='rg-answer'+(rag.set?' rg-list':'');
+      $('rgDetBadge').innerHTML='<span class="rg-badge rg-ok">✓ verified against the ledger</span>';
+      const hit=same(rag,det);
+      $('rgRagBadge').innerHTML='<span class="rg-badge '+(hit?'rg-ok':'rg-no')+'">'+(hit?'✓ matches':'✗ wrong')+'</span>';
+      $('rgDetMeta').innerHTML='<b>'+det.path+'</b>'+(det.sources&&det.sources.length?' · cites '+det.sources.length+' row'+(det.sources.length>1?'s':''):'');
+      $('rgRagMeta').innerHTML='pulled <b>'+rag.sources.length+'</b> chunks · <span class="rg-srcf">'+(rag.sources[0]||'').split('/').pop()+'</span>';
+      $('rgNote').textContent=hit?'Retrieval handled this one. It shines when the answer sits on a single document.'
+        :'Retrieval answered from what it pulled and missed. Totals, counts and lists need every row, so the router sends them to code.';}
+    $('rgRagBench').textContent='benchmark '+DB.benchmark.rag.overall[0]+'/'+DB.benchmark.rag.overall[1];
+    $('rgDetBench').textContent='benchmark '+DB.benchmark.hybrid.overall[0]+'/'+DB.benchmark.hybrid.overall[1];
+    DB.examples.forEach(e=>{const c=document.createElement('span');c.className='rg-chip';c.textContent=e.q;
+      c.onclick=()=>ask(e.q);$('rgChips').appendChild(c);});
+    $('rgAsk').addEventListener('submit',ev=>{ev.preventDefault();if($('rgQ').value.trim())ask($('rgQ').value.trim());});
+    ask(DB.examples[9].q);
+  })();
+  </script>
+  {% endraw %}
+
+  <h2>What the eval showed</h2>
+  <table class="scorecard">
+    <thead><tr><th>Question type</th><th>Retrieval only</th><th>Routed to code</th></tr></thead>
+    <tbody>
+      <tr><td>Look-up (one document)</td><td>7 / 7</td><td>7 / 7</td></tr>
+      <tr><td>Aggregate (total, count)</td><td>3 / 6</td><td>6 / 6</td></tr>
+      <tr><td>List (which invoices…)</td><td>2 / 3</td><td>3 / 3</td></tr>
+      <tr><td><strong>Overall</strong></td><td><strong>12 / 16</strong></td><td><strong>16 / 16</strong></td></tr>
+    </tbody>
+  </table>
+  <p>
+    Retrieval ties on look-ups and even gets the small totals and lists, because those fit inside what
+    it pulled back. It breaks on the questions that need every row. It counts 2 exceptions when there
+    are 12, because it only saw the two it retrieved. The routed side gets all 16, and it shows its row
+    count every time, so you can check it.
+  </p>
+
+  <h2>What I learned</h2>
+  <p>
+    Retrieval is not a database, and it rarely tells you so. When it undercounts, the answer still
+    looks like an answer, a confident 2 where the truth is 12. That's the real risk with RAG on
+    business data. It doesn't fail loudly, it's right often enough that you stop checking, and then
+    it's quietly wrong on the one that matters. The fix isn't a smarter model, it's structure: route
+    the questions that need completeness to code, and make every answer carry the rows behind it so a
+    person can verify it.
+  </p>
+  <p>
+    I caught all of this because of the eval. Without it I'd have a question box that looks impressive
+    and a 75 I'd have taken for a 95. It turned "it mostly works" into "here is exactly where it
+    doesn't," the same habit I wrote about in
+    <a href="/posts/ai-evals/">AI Evals: Grading your own homework</a>. I could keep going from here,
+    with real embeddings, a stronger retriever, a model to phrase the answers, and a threshold that
+    bows out when it isn't sure, and a production system would. But the data here is synthetic and
+    small and the retriever is deliberately simple, and chasing a better number would miss the point
+    of this site, which is to learn the shape of a problem, not to ship a product. The shape is clear
+    enough: retrieval for finding, code for counting, and an eval to tell you where the line is.
+  </p>
+
+  <p class="back"><a href="/work/">← Back to Work</a></p>
+</section>
