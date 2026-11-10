@@ -654,3 +654,44 @@ html.reveal-on .reveal-fade.is-visible { opacity: 1; }
   .chat-fab { bottom: 16px; right: 16px; width: 56px; height: 56px; }
   .chat-panel { bottom: 82px; right: 16px; left: 16px; width: auto; }
 }
+
+/* ---- Data tables (eval scorecards and the like) ---- */
+.case-study table,
+article table,
+.post table,
+table.scorecard {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0 26px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.case-study th, .case-study td,
+article th, article td,
+.post th, .post td,
+table.scorecard th, table.scorecard td {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 10px 14px;
+  text-align: left;
+  color: var(--fg);
+}
+.case-study thead th,
+article thead th,
+.post thead th,
+table.scorecard thead th {
+  background: var(--surface);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.case-study tbody tr:nth-child(even) td,
+article tbody tr:nth-child(even) td,
+.post tbody tr:nth-child(even) td,
+table.scorecard tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.025);
+}
+.case-study th:not(:first-child), .case-study td:not(:first-child),
+article th:not(:first-child), article td:not(:first-child),
+.post th:not(:first-child), .post td:not(:first-child),
+table.scorecard th:not(:first-child), table.scorecard td:not(:first-child) {
+  text-align: center;
+}
